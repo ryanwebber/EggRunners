@@ -45,6 +45,11 @@ public class ChunkManager : MonoBehaviour
 
             var lengthInWorldUnits = chunk.Length;
             instance.transform.position = origin + Vector3.forward * (accumulatedDistance + lengthInWorldUnits);
+
+            // Squish on the z-axis very slightly. Prevent the back face of adjacent
+            // meshes from rendering over eachother
+            instance.transform.localScale = Vector3.one - (Vector3.forward * 0.0001f);
+
             accumulatedDistance += lengthInWorldUnits;
 
             chunks.Add(instance);

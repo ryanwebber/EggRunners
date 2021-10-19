@@ -16,7 +16,7 @@ public class CourseProgress : MonoBehaviour
         bestDistance = transform.position.z;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (playersService.Runners.Count == 0)
             return;
@@ -29,11 +29,5 @@ public class CourseProgress : MonoBehaviour
         var currentPosition = transform.position;
         currentPosition.z = bestDistance;
         transform.position = currentPosition;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0.8f, 0.2f, 0.2f, 0.2f);
-        Gizmos.DrawCube(transform.position, new Vector3(32, 32, 0.01f));
     }
 }

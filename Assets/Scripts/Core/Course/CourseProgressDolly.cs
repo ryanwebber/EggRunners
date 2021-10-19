@@ -13,7 +13,7 @@ public class CourseProgressDolly : MonoBehaviour
         offset = transform.position.z - progress.Distance;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         var trackerPosition = transform.position;
         trackerPosition.z = progress.Distance + offset;
