@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputRouter : MonoBehaviour
 {
     [SerializeField]
-    private PlayerCMFInputAdapter mainMovementInput;
+    private VirtualRunnerInput forwardingInput;
 
     private PlayerInputBinder inputBinder;
     private IInputSource currentSource;
@@ -43,13 +43,14 @@ public class PlayerInputRouter : MonoBehaviour
     {
         if (currentSource != null)
         {
-            mainMovementInput.IsJumping = currentSource.IsJumpPressed;
-            mainMovementInput.MovementInput = currentSource.MovementValue;
+            forwardingInput.UpdateInput((ref VirtualRunnerInput.Input i) => {
+                i.isJumping = currentSource.IsJumpPressed;
+                i.movementValue = currentSource.MovementValue;
+            });
         }
         else
         {
-            mainMovementInput.IsJumping = false;
-            mainMovementInput.MovementInput = Vector2.zero;
+            forwardingInput.ResetInput();
         }
     }
 }

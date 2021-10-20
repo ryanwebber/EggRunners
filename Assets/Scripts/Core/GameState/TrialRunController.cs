@@ -16,11 +16,16 @@ public class TrialRunController : MonoBehaviour
 
     private IEnumerator BeginRound()
     {
-        var countdownIterator = CountDownState.WithDuration(3, () => new WaitForSeconds(1f));
+        gameState.Events.OnCountDownBegin?.Invoke();
+        var countdownIterator = CountDownState.WithCount(3, () => new WaitForSeconds(1f));
         foreach (var tick in countdownIterator)
         {
             yield return tick.step;
             gameState.Events.OnCountDownTick?.Invoke(tick.state);
         }
+
+
+        yield return new WaitForSeconds(0.75f);
+        gameState.Events.OnCountDownEnd?.Invoke();
     }
 }

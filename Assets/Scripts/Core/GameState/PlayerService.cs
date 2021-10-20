@@ -19,6 +19,13 @@ public class PlayerService : MonoBehaviour
     {
         allRunners = new List<CourseRunner>();
         gameState.OnRegisterServices += () => gameState.Services.RegisterService(this);
+        gameState.Events.OnCountDownEnd += () =>
+        {
+            foreach (var runner in allRunners)
+            {
+                runner.MainInput.IsInputLocked = false;
+            }
+        };
     }
 
     public void SpawnRunners(IEnumerable<PlayerRegistration> players)
@@ -27,7 +34,9 @@ public class PlayerService : MonoBehaviour
         {
             var instance = Instantiate(contestant.PlayerPrefab);
             instance.transform.position = SpawnPoint.position;
-            instance.MainInput.Bind(contestant.InputSource);
+
+            if (contestant.InputSource != null)
+                instance.MakePlayableByHuman(contestant.InputSource);
 
             allRunners.Add(instance);
         }

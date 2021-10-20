@@ -1,13 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(PlayerInputBinder))]
+[RequireComponent(typeof(VirtualRunnerInput))]
+[RequireComponent(typeof(CourseRunnerEvents))]
 public class CourseRunner : MonoBehaviour
 {
-    public PlayerInputBinder MainInput { get; private set; }
+    [SerializeField]
+    private PlayerInputBinder playerInputBinder;
+
+    public CourseRunnerEvents Events { get; private set; }
+    public VirtualRunnerInput MainInput { get; private set; }
 
     private void Awake()
     {
-        MainInput = GetComponent<PlayerInputBinder>();
+        MainInput = GetComponent<VirtualRunnerInput>();
+        MainInput.IsInputLocked = true;
+
+        Events = GetComponent<CourseRunnerEvents>();
+        Events.OnRunnerElimination += _ => MainInput.IsInputLocked = true;
+    }
+
+    public void MakePlayableByHuman(AttachableInputSource inputSource)
+    {
+        playerInputBinder?.Bind(inputSource);
     }
 }

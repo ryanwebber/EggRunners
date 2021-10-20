@@ -15,6 +15,7 @@ namespace CMF
 		[SerializeField] float colliderHeight = 2f;
 		[SerializeField] float colliderThickness = 1f;
 		[SerializeField] Vector3 colliderOffset = Vector3.zero;
+		[SerializeField] LayerMask baseLayerMask;
 
 		//References to attached collider(s);
 		BoxCollider boxCollider;
@@ -50,7 +51,17 @@ namespace CMF
 		Transform tr;
 		Sensor sensor;
 
-		void Awake()
+        public LayerMask BaseLayerMask
+		{
+			get => baseLayerMask;
+			set
+			{
+				baseLayerMask = value;
+				RecalculateSensorLayerMask();
+			}
+		}
+
+        void Awake()
 		{
 			Setup();
 
@@ -227,13 +238,13 @@ namespace CMF
 		//Recalculate sensor layermask based on current physics settings;
 		void RecalculateSensorLayerMask()
 		{
-			int _layerMask = 0;
+			int _layerMask = baseLayerMask;
 			int _objectLayer = this.gameObject.layer;
  
 			//Calculate layermask;
             for (int i = 0; i < 32; i++)
             {
-                if (!Physics.GetIgnoreLayerCollision(_objectLayer, i)) 
+                if (((_layerMask & (1 << i)) != 0) && !Physics.GetIgnoreLayerCollision(_objectLayer, i)) 
 					_layerMask = _layerMask | (1 << i);
 			}
 

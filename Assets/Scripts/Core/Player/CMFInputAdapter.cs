@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerCMFInputAdapter : CMF.CharacterInput
+public class CMFInputAdapter : CMF.CharacterInput
 {
     public Vector2 MovementInput { get; set; }
     public bool IsJumping { get; set; }

@@ -14,7 +14,7 @@ public class CourseHud : MonoBehaviour
     {
         gameState.Events.OnCountDownTick += state =>
         {
-            var remaining = state.secondsRemaining;
+            var remaining = state.ticksRemaining;
             var total = state.countdownDuration;
 
             if (remaining > 0)

@@ -5,18 +5,18 @@ using UnityEngine;
 
 public struct CountDownState
 {
-    public int secondsRemaining;
+    public int ticksRemaining;
     public int countdownDuration;
 
-    public static IEnumerable<(CountDownState state, T step)> WithDuration<T>(int seconds, Func<T> fn)
+    public static IEnumerable<(CountDownState state, T step)> WithCount<T>(int ticks, Func<T> fn)
     {
-        for (int i = seconds; i >= 0; i--)
+        for (int i = ticks; i >= 0; i--)
         {
             var step = fn.Invoke();
             var state = new CountDownState
             {
-                secondsRemaining = i,
-                countdownDuration = seconds,
+                ticksRemaining = i,
+                countdownDuration = ticks,
             };
 
             yield return (state, step);
