@@ -43,19 +43,19 @@ public class AttachableInputSource : MonoBehaviour
 
     public void OnPlayerMovementSpecialAction(InputSystem.InputAction.CallbackContext ctx)
     {
-        if (ctx.started)
-            relayedSource.OnMovementSpecialAction?.Invoke();
+        relayedSource.IsJumpPressed = ctx.ReadValueAsButton();
     }
 
     private class RelayInputSource : IInputSource
     {
-        public Event OnMovementSpecialAction { get; set; }
+        public bool IsJumpPressed { get; set; } = false;
         public Vector2 MovementValue { get; set; } = Vector2.zero;
         public PlayerIdentifier InputIdentifier { get; set; }
 
         public void Reset()
         {
             MovementValue = Vector2.zero;
+            IsJumpPressed = false;
         }
     }
 

@@ -9,7 +9,7 @@ public static class InputSourceUtils
     private class DetachedInputSource : IInputSource
     {
         public Vector2 MovementValue => Vector2.zero;
-        public Event OnMovementSpecialAction { get; set; }
+        public bool IsJumpPressed => false;
         public PlayerIdentifier InputIdentifier => PlayerIdentifier.Default;
     }
 }

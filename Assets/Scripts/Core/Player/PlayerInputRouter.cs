@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputRouter : MonoBehaviour
 {
     [SerializeField]
-    private PlayerMovementController movementController;
+    private PlayerCMFInputAdapter mainMovementInput;
 
     private PlayerInputBinder inputBinder;
     private IInputSource currentSource;
@@ -43,13 +43,13 @@ public class PlayerInputRouter : MonoBehaviour
     {
         if (currentSource != null)
         {
-            movementController.IsJumping = false;
-            movementController.MovementInput = currentSource.MovementValue;
+            mainMovementInput.IsJumping = currentSource.IsJumpPressed;
+            mainMovementInput.MovementInput = currentSource.MovementValue;
         }
         else
         {
-            movementController.IsJumping = false;
-            movementController.MovementInput = Vector2.zero;
+            mainMovementInput.IsJumping = false;
+            mainMovementInput.MovementInput = Vector2.zero;
         }
     }
 }

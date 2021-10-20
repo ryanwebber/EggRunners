@@ -3,7 +3,8 @@ using UnityEngine;
 
 public interface IInputSource
 {
-    Event OnMovementSpecialAction { get; set; }
     Vector2 MovementValue { get; }
+    bool IsJumpPressed { get; }
+
     PlayerIdentifier InputIdentifier { get; }
 }
