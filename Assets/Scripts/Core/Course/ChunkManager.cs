@@ -30,12 +30,6 @@ public class ChunkManager : MonoBehaviour
         Assert.AreEqual(chunks.Count, 0);
 
         float accumulatedDistance = 0;
-        if (newChunks.Count > 0)
-        {
-            // Position the first chunk so it starts exactly at the
-            // offset position
-            accumulatedDistance -= newChunks[0].Length / 2;
-        }
 
         int i = 0;
         foreach (var chunk in newChunks)
@@ -43,8 +37,9 @@ public class ChunkManager : MonoBehaviour
             var instance = Instantiate(chunk, targetParent);
             instance.name = $"Course Chunk { i++ }";
 
-            var lengthInWorldUnits = chunk.Length;
-            instance.transform.position = origin + Vector3.forward * (accumulatedDistance + lengthInWorldUnits);
+            int lengthInWorldUnits = chunk.Length;
+            float zOffset = accumulatedDistance + lengthInWorldUnits / 2f;
+            instance.transform.position = origin + Vector3.forward * zOffset;
 
             // Squish on the z-axis very slightly. Prevent the back face of adjacent
             // meshes from rendering over eachother
@@ -58,8 +53,9 @@ public class ChunkManager : MonoBehaviour
         // Finish line and stuff
         foreach (var chunk in tailChunks)
         {
-            var lengthInWorldUnits = chunk.Length;
-            chunk.transform.position = origin + Vector3.forward * (accumulatedDistance + lengthInWorldUnits);
+            int lengthInWorldUnits = chunk.Length;
+            float zOffset = accumulatedDistance + lengthInWorldUnits / 2f;
+            chunk.transform.position = origin + Vector3.forward * zOffset;
             accumulatedDistance += lengthInWorldUnits;
 
             chunks.Add(chunk);

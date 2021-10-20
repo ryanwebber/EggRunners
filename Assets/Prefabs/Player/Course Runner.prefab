@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 340332335650284808}
   - component: {fileID: 1276755182253393289}
   - component: {fileID: 1067734065430014269}
+  - component: {fileID: 5146938706332932468}
   - component: {fileID: 1440182853627167294}
   m_Layer: 6
   m_Name: Course Runner
@@ -110,13 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5e44db14072ea4c964da3b192181c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 7
-  airControlRate: 2
-  jumpSpeed: 10
-  jumpDuration: 0.2
+  movementSpeed: 12
+  airControlRate: 32
+  jumpSpeed: 24
+  jumpDuration: 0.05
   airFriction: 0.5
   groundFriction: 100
-  gravity: 30
+  gravity: 124
   slideGravity: 5
   slopeLimit: 80
   useLocalMomentum: 1
@@ -170,6 +171,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15be4607c298f4d98b1bc55d35194538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5146938706332932468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2671826067691062244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1814f8092b4bb437abf72fdc28bb748f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 11400000, guid: c610430b9274e494c915db9d7364a1e3, type: 2}
 --- !u!114 &1440182853627167294
 MonoBehaviour:
   m_ObjectHideFlags: 0
