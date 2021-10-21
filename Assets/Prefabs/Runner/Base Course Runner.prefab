@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 2725022951071724750}
   - component: {fileID: 5146938706332932468}
   - component: {fileID: 2631428808296318098}
-  - component: {fileID: 2631514445971104060}
   - component: {fileID: 215475049213467961}
+  - component: {fileID: 2130320476345277248}
   - component: {fileID: 1678075369414876332}
   - component: {fileID: 5881684740407654392}
   - component: {fileID: 4434492264121480444}
@@ -115,29 +115,6 @@ MonoBehaviour:
   - {x: -0.80901706, y: 0, z: 0.5877852}
   - {x: -0.80901706, y: 0, z: -0.5877851}
   - {x: 0.30901712, y: 0, z: -0.9510565}
---- !u!114 &2631514445971104060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2671826067691062244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5e44db14072ea4c964da3b192181c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 12
-  airControlRate: 32
-  jumpSpeed: 24
-  jumpDuration: 0.05
-  airFriction: 0.5
-  groundFriction: 100
-  gravity: 124
-  slideGravity: 5
-  slopeLimit: 80
-  useLocalMomentum: 1
-  cameraTransform: {fileID: 0}
 --- !u!114 &215475049213467961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +127,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49dcd7b156ede45f2849f3792af0c86e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2130320476345277248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2671826067691062244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819e818989d3a4bb28f295378352f8f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 12
+  airControlRate: 32
+  jumpSpeed: 24
+  jumpDuration: 0.06
+  preJumpBufferTime: 0.05
+  lateJumpForgivenessTime: 0.25
+  airFriction: 0.5
+  groundFriction: 100
+  gravity: 124
+  gravityFallMultiplier: 2
+  slideGravity: 5
+  slopeLimit: 80
+  useLocalMomentum: 1
 --- !u!114 &1678075369414876332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,7 +192,9 @@ MonoBehaviour:
   physicsBoundsLayer:
     serializedVersion: 2
     m_Bits: 128
+  minimimHeightBeforeElimination: -32
   movementController: {fileID: 2631428808296318098}
+  events: {fileID: 5881684740407654392}
 --- !u!114 &1440182853627167294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea00ad25c692c9d4881f3c19e75ca56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 2631514445971104060}
+  controller: {fileID: 2130320476345277248}
   turnSpeed: 1500
   ignoreControllerMomentum: 0
 --- !u!1 &2672800535931106334

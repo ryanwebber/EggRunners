@@ -11,7 +11,6 @@ public class CourseRenderer : MonoBehaviour
 
         public void UpdateMaterial(Material mat)
         {
-            mat.SetInt("_Clip", 1);
             mat.SetVector("_NearClippingPlane", chasePlane.PlanarData);
         }
     }

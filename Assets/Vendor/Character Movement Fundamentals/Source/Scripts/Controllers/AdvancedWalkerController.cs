@@ -51,6 +51,10 @@ namespace CMF
 
 		//Amount of downward gravity;
 		public float gravity = 30f;
+
+		[Tooltip("Changes the strength of gravity when y velocity is negative")]
+		public float gravityFallMultiplier = 1.25f;
+
 		[Tooltip("How fast the character will slide down steep slopes.")]
 		public float slideGravity = 5f;
 		
@@ -375,7 +379,8 @@ namespace CMF
 			}
 
 			//Add gravity to vertical momentum;
-			_verticalMomentum -= tr.up * gravity * Time.deltaTime;
+			float gravityMultiplier = _verticalMomentum.y < 0 ? gravityFallMultiplier : 1f;
+			_verticalMomentum -= tr.up * gravity * gravityMultiplier * Time.deltaTime;
 
 			//Remove any downward force if the controller is grounded;
 			if(currentControllerState == ControllerState.Grounded && VectorMath.GetDotProduct(_verticalMomentum, tr.up) < 0f)

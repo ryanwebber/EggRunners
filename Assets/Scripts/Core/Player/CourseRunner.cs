@@ -17,7 +17,7 @@ public class CourseRunner : MonoBehaviour
         MainInput.IsInputLocked = true;
 
         Events = GetComponent<CourseRunnerEvents>();
-        Events.OnRunnerElimination += _ => MainInput.IsInputLocked = true;
+        Events.OnRunnerElimination += () => MainInput.IsInputLocked = true;
     }
 
     public void MakePlayableByHuman(AttachableInputSource inputSource)

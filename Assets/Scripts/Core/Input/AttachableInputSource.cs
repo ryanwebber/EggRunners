@@ -34,6 +34,11 @@ public class AttachableInputSource : MonoBehaviour
                 }
             }
         };
+
+        //InputSystem.InputSystem.onEvent += (eventPtr, device) =>
+        //{
+        //    Debug.Log($"Got event: {eventPtr.ToString()} onDevice={device.name}");
+        //};
     }
 
     public void OnPlayerMove(InputSystem.InputAction.CallbackContext ctx)
