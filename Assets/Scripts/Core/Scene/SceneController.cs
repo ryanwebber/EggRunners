@@ -68,6 +68,11 @@ public class SceneController : MonoBehaviour, ISceneController, IPersistantInsta
         StartCoroutine(LoadSceneRoutine(scene, scope));
     }
 
+    public void LoadScene(ISceneRequest request)
+    {
+        LoadScene(request.Identifier, unloader => request.UnloadScene(unloader));
+    }
+
     public IEnumerator LoadSceneRoutine(SceneIdentifier scene, System.Action<ISceneUnloader> scope)
     {
         yield return 0;

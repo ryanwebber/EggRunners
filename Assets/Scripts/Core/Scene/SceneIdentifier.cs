@@ -3,6 +3,7 @@
 public class SceneIdentifier
 {
     public static SceneIdentifier PERSISTANT_SCENE = new SceneIdentifier("PersistantScene");
+    public static SceneIdentifier TRIAL_COURSE_SCENE = new SceneIdentifier("TrialCourseScene");
 
     private string name;
     public string Name => name;
