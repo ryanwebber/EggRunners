@@ -11,17 +11,31 @@ public class CourseRunner : MonoBehaviour
     public CourseRunnerEvents Events { get; private set; }
     public VirtualRunnerInput MainInput { get; private set; }
 
+    public Vector3 Center
+    {
+        get => transform.position;
+        set => transform.position = value;
+    }
+
     private void Awake()
     {
         MainInput = GetComponent<VirtualRunnerInput>();
         MainInput.IsInputLocked = true;
 
         Events = GetComponent<CourseRunnerEvents>();
+
+        Events.OnRunnerFinishDetected += () =>
+        {
+            Debug.Log("Player finish detected", this);
+            MainInput.IsInputLocked = true;
+            MainInput.ForceUpdateInput((ref VirtualRunnerInput.Input i) => i.movementValue = Vector2.up);
+            StartCoroutine(Coroutines.After(0.5f, () => MainInput.ResetInputAndLock()));
+        };
+
         Events.OnRunnerEliminationDetected += () =>
         {
             Debug.Log("Player elimination detected", this);
-            MainInput.IsInputLocked = true;
-            MainInput.ResetInput();
+            MainInput.ResetInputAndLock();
         };
 
         Events.OnRunnerEliminationSequenceComplete += () =>

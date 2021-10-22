@@ -14,34 +14,35 @@ public class VirtualRunnerInput : MonoBehaviour
     [SerializeField]
     private CMFInputAdapter inputAdapter;
 
-    private bool isInputLocked = false;
-    public bool IsInputLocked
-    {
-        get => isInputLocked;
-        set
-        {
-            isInputLocked = value;
-            UpdateInput(null);
-        }
-    }
+    public bool IsInputLocked { get; set; }
 
     private Input input;
     public Input CurrentInput => input;
 
     public bool UpdateInput(InputUpdate block)
     {
-        var i = CurrentInput;
         if (IsInputLocked)
-            i = new Input();
-        else if (block != null)
-            block.Invoke(ref i);
+            return false;
 
-        input = i;
-        inputAdapter.MovementInput = i.movementValue;
-        inputAdapter.IsJumping = i.isJumping;
-
+        ForceUpdateInput(block);
+        
         return true;
     }
 
-    public void ResetInput() { input = new Input(); }
+    public void ForceUpdateInput(InputUpdate block)
+    {
+        block?.Invoke(ref input);
+        inputAdapter.MovementInput = input.movementValue;
+        inputAdapter.IsJumping = input.isJumping;
+    }
+
+    public void ResetInputAndLock()
+    {
+        ResetInput();
+        IsInputLocked = true;
+    }
+
+    public void ResetInput() {
+        ForceUpdateInput((ref Input i) => i = default);
+    }
 }

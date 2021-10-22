@@ -7,6 +7,9 @@ public class CourseProgress : MonoBehaviour
     [SerializeField]
     private GameState gameState;
 
+    [SerializeField]
+    private Transform maxProgressMarker;
+
     private float bestDistance = float.NegativeInfinity;
     private float startProgress = 0f;
     public float Distance => transform.position.z;
@@ -37,7 +40,7 @@ public class CourseProgress : MonoBehaviour
 
     public void RecordProgress(Vector3 position)
     {
-        bestDistance = Mathf.Max(bestDistance, position.z);
+        bestDistance = Mathf.Min(Mathf.Max(bestDistance, position.z), maxProgressMarker.position.z);
         UpdateProgress();
     }
 }

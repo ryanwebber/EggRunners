@@ -258,8 +258,6 @@ namespace CMF
 			//Set sensor layermask;
             sensor.layermask = _layerMask;
 
-			Debug.Log("Layermask: " + _layerMask);
-
 			//Save current layer;
 			currentLayer = _objectLayer;
 		}

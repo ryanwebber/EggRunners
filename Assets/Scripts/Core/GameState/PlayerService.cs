@@ -9,6 +9,7 @@ public class PlayerService : MonoBehaviour
 {
     private struct RunnerState
     {
+        public int index;
         public CourseRunner instance;
         public Nullable<RunnerResult> result;
 
@@ -22,10 +23,14 @@ public class PlayerService : MonoBehaviour
     private CourseProgress progressTracker;
 
     [SerializeField]
+    private CourseFinishZone finishZone;
+
+    [SerializeField]
     private Transform SpawnPoint;
 
     private float runStartTime = 0f;
     private RunnerState[] runners;
+    private CourseRoster roster;
 
     private void Awake()
     {
@@ -59,14 +64,32 @@ public class PlayerService : MonoBehaviour
 
         foreach (var runner in runners)
         {
-            progressTracker.RecordProgress(runner.instance.transform.position);
+            var instance = runner.instance;
+            var playerIndex = runner.index;
+
+            progressTracker.RecordProgress(instance.transform.position);
+
+            if (finishZone.FinishBounds.Contains(instance.Center) && runners[playerIndex].IsRunning)
+            {
+                runners[playerIndex].result = new RunnerResult
+                {
+                    playerIndex = playerIndex,
+                    runDuration = Time.time - runStartTime,
+                    eliminationDetails = null,
+                };
+
+                instance.Events.OnRunnerFinishDetected?.Invoke();
+
+                if (IsRoundComplete())
+                    StartCoroutine(Coroutines.After(2f, () => BuildResultAndCompleteRound()));
+            }
         }
     }
 
     private void ResetRunnerAtStartPosition(CourseRunner runner)
     {
         Debug.Log("Resetting player at spawn", this);
-        runner.transform.position = SpawnPoint.position;
+        runner.Center = SpawnPoint.position;
         runner.transform.localScale = Vector3.one;
         runner.transform.up = Vector3.up;
         runner.MainInput.IsInputLocked = true;
@@ -75,7 +98,8 @@ public class PlayerService : MonoBehaviour
     public void LoadRoster(CourseRoster roster)
     {
         Assert.AreEqual(null, runners);
-        runners = new RunnerState[roster.players.Count];
+        this.runners = new RunnerState[roster.players.Count];
+        this.roster = roster;
 
         for (int i = 0; i < roster.players.Count; i++)
         {
@@ -104,24 +128,29 @@ public class PlayerService : MonoBehaviour
                     },
                 };
 
-                if (runners.All(state => !state.IsRunning))
-                {
-                    // Round complete
-                    var results = new RunResult
-                    {
-                        roster = roster,
-                        runnerResults = runners.Select(r => r.result.GetValueOrDefault()).ToArray(),
-                    };
-
-                    gameState.Events.OnAllRunnersFinished?.Invoke(results);
-                }
+                if (IsRoundComplete())
+                    BuildResultAndCompleteRound();
             };
 
             runners[playerIndex] = new RunnerState
             {
+                index = playerIndex,
                 instance = instance,
                 result = null,
             };
         }
+    }
+
+    private bool IsRoundComplete() => runners.All(state => !state.IsRunning);
+
+    private void BuildResultAndCompleteRound()
+    {
+        var results = new RunResult
+        {
+            roster = roster,
+            runnerResults = runners.Select(r => r.result.GetValueOrDefault()).ToArray(),
+        };
+
+        gameState.Events.OnAllRunnersFinished?.Invoke(results);
     }
 }

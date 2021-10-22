@@ -7,6 +7,8 @@ public class GameEvents
     public Event<CountDownState> OnCountDownTick;
     public Event OnCountDownEnd;
 
+    // Player events
+    public Event<RunnerResult> OnRunnerResult;
 
     // Round end / reset
     public Event<RunResult> OnAllRunnersFinished;
