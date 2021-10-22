@@ -13,6 +13,8 @@ public class CMFMovementController : Controller
 	protected CharacterInput characterInput;
 	protected CeilingDetector ceilingDetector;
 
+	public Mover Mover => mover;
+
 	//Jump key variables;
 	bool jumpInputIsLocked = false;
 	bool jumpKeyWasPressed = false;
@@ -21,6 +23,9 @@ public class CMFMovementController : Controller
 
 	//Movement speed;
 	public float movementSpeed = 7f;
+
+	[Tooltip("Maximum movement speed in any state")]
+	public float maximumVelocity = 200;
 
 	//How fast the controller can change direction while in the air;
 	//Higher values result in more air control;
@@ -47,12 +52,18 @@ public class CMFMovementController : Controller
 	public float groundFriction = 100f;
 
 	//Current momentum;
+	[ReadOnly]
+	[SerializeField]
 	protected Vector3 momentum = Vector3.zero;
 
 	//Saved velocity from last frame;
+	[ReadOnly]
+	[SerializeField]
 	Vector3 savedVelocity = Vector3.zero;
 
 	//Saved horizontal movement velocity from last frame;
+	[ReadOnly]
+	[SerializeField]
 	Vector3 savedMovementVelocity = Vector3.zero;
 
 	// Time stamp of being grounded last
@@ -197,7 +208,7 @@ public class CMFMovementController : Controller
 
 		Vector3 _velocity = Vector3.zero;
 
-		// Use the character's transform axes to calculate the movement direction;
+		// Use the character's transform axes to calculate the movement direction;$
 		_velocity += tr.right * characterInput.GetHorizontalMovementInput();
 		_velocity += tr.forward * characterInput.GetVerticalMovementInput();
 
@@ -494,6 +505,9 @@ public class CMFMovementController : Controller
 
 		if (useLocalMomentum)
 			momentum = tr.worldToLocalMatrix * momentum;
+
+		//Finally, clamp momentum if it is too big
+		momentum = Vector3.ClampMagnitude(momentum, maximumVelocity);
 	}
 
 	//Events;

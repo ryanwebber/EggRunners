@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 607643610250554417}
   - component: {fileID: 2465604450241246839}
+  - component: {fileID: 5771917478671572878}
   m_Layer: 0
   m_Name: BaseCourseChunk
   m_TagString: Untagged
@@ -45,3 +46,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitWidth: 5
   unitLength: 1
+--- !u!114 &5771917478671572878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607643610250554422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1814f8092b4bb437abf72fdc28bb748f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  group: {fileID: 11400000, guid: e42d9b260d49843f0bf58c1e896c6b48, type: 2}

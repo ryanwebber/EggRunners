@@ -7,10 +7,22 @@ public class TrialRunController : MonoBehaviour
     [SerializeField]
     private GameState gameState;
 
-    public void StartRound(TrialParameters parameters)
+    [SerializeField]
+    private TrialUIController ui;
+
+    public void BootGame(TrialParameters parameters)
     {
         gameState.BootGame();
-        gameState.Services.GetService<PlayerService>().SpawnRunners(new PlayerRegistration[] { parameters.PlayerInfo });
+        gameState.Services.GetService<ChunkService>().LoadChunkPrefabs(parameters.CourseLayout.ChunkList);
+        gameState.Services.GetService<PlayerService>().LoadRoster(parameters.PlayerRoster);
+
+        gameState.Events.OnAllRunnersFinished += _ =>
+        {
+            // TODO: Go through UI for this
+            gameState.Events.OnCourseShouldReset?.Invoke();
+            StartCoroutine(Coroutines.After(1f, () => StartCoroutine(BeginRound())));
+        };
+
         StartCoroutine(BeginRound());
     }
 

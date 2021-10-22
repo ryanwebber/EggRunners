@@ -11,9 +11,9 @@ and computers. Also, challenge yourself with time trials on difficult courses.
  - [x] Player input system
  - [x] Movement mechanics
  - [x] Obstacle kill-plane clipping
- - [ ] Kill-plane physics disable
+ - [x] Kill-plane physics disable
  - [ ] Player "death"
- - [ ] Late-jump forgiveness
+ - [x] Late-jump forgiveness
  - [ ] Camera panning
  - [ ] Level restart
  - [ ] Level complete

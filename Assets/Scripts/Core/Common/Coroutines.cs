@@ -20,7 +20,14 @@ public static class Coroutines
 
     public static IEnumerator OnFixedUpdate(System.Action action)
     {
-        yield return new WaitForFixedUpdate();
+        return OnFixedUpdate(1, action);
+    }
+
+    public static IEnumerator OnFixedUpdate(int n, System.Action action)
+    {
+        for (int i = 0; i < n; i++)
+            yield return new WaitForFixedUpdate();
+
         action?.Invoke();
     }
 

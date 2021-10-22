@@ -6,9 +6,6 @@ using UnityEngine;
 public class TrialCourseInitializer : MonoBehaviour
 {
     [SerializeField]
-    private ChunkManager chunkManager;
-
-    [SerializeField]
     private TrialRunController mainController;
 
     [Header("Test Data")]
@@ -33,10 +30,8 @@ public class TrialCourseInitializer : MonoBehaviour
         var layout = loader.GetContext<TrialCourseLayout>();
         var playerRegistration = loader.GetContext<PlayerRegistration>();
 
-        chunkManager.SetChunkPrefabs(layout.ChunkList);
-
-        var parameters = new TrialParameters(playerRegistration);
-        mainController.StartRound(parameters);
+        var parameters = new TrialParameters(playerRegistration, layout);
+        mainController.BootGame(parameters);
     }
 
     private void SeedSceneWithMockData(IDebugSceneSeeder seeder)

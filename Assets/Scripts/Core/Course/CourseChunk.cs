@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CourseChunk : MonoBehaviour
 {
+    public Event OnChunkDynamicsReset;
+    public Event OnChunkDynamicsActivated;
+
     [SerializeField]
     [Min(1)]
     private int unitWidth = 5;

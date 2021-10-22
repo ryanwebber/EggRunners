@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class ChunkManager : MonoBehaviour
+public class ChunkService : MonoBehaviour
 {
     [SerializeField]
-    private Transform reference;
-
-    [SerializeField]
-    private Transform targetParent;
+    private GameState gameState;
 
     [SerializeField]
     private Vector3 origin;
@@ -23,9 +20,24 @@ public class ChunkManager : MonoBehaviour
     {
         if (chunks == null)
             chunks = new List<CourseChunk>();
+
+        gameState.OnRegisterServices += () => gameState.Services.RegisterService(this);
+        gameState.Events.OnCountDownEnd += () =>
+        {
+            Debug.Log("Enabling dynamic obstacles...");
+            foreach (var chunk in chunks)
+                chunk.OnChunkDynamicsActivated?.Invoke();
+        };
+
+        gameState.Events.OnCourseShouldReset += () =>
+        {
+            Debug.Log("Resetting dynamic obstacles...");
+            foreach (var chunk in chunks)
+                chunk.OnChunkDynamicsReset?.Invoke();
+        };
     }
 
-    public void SetChunkPrefabs(IList<CourseChunk> newChunks)
+    public void LoadChunkPrefabs(IList<CourseChunk> newChunks)
     {
         Assert.AreEqual(chunks.Count, 0);
 
@@ -34,7 +46,7 @@ public class ChunkManager : MonoBehaviour
         int i = 0;
         foreach (var chunk in newChunks)
         {
-            var instance = Instantiate(chunk, targetParent);
+            var instance = Instantiate(chunk);
             instance.name = $"Course Chunk { i++ }";
 
             int lengthInWorldUnits = chunk.Length;

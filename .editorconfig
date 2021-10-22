@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0001: Simplify Names
+dotnet_diagnostic.IDE0001.severity = none
+
+# IDE0044: Add readonly modifier
+dotnet_style_readonly_field = false:suggestion

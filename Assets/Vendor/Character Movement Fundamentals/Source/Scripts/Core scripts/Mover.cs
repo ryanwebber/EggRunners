@@ -35,7 +35,8 @@ namespace CMF
 
 		[HideInInspector] public Vector3[] raycastArrayPreviewPositions;
 
-		//Ground detection variables;
+		[ReadOnly]
+		[SerializeField]
 		bool isGrounded = false;
 
 		//Sensor range variables;
@@ -244,8 +245,8 @@ namespace CMF
 			//Calculate layermask;
             for (int i = 0; i < 32; i++)
             {
-                if (((_layerMask & (1 << i)) != 0) && !Physics.GetIgnoreLayerCollision(_objectLayer, i)) 
-					_layerMask = _layerMask | (1 << i);
+                if (Physics.GetIgnoreLayerCollision(_objectLayer, i)) 
+					_layerMask &= ~(1 << i);
 			}
 
 			//Make sure that the calculated layermask does not include the 'Ignore Raycast' layer;
@@ -256,6 +257,8 @@ namespace CMF
  
 			//Set sensor layermask;
             sensor.layermask = _layerMask;
+
+			Debug.Log("Layermask: " + _layerMask);
 
 			//Save current layer;
 			currentLayer = _objectLayer;
@@ -386,6 +389,7 @@ namespace CMF
 		{
 			return sensor.GetCollider();
 		}
-		
+
+		public Collider GetBodyCollider() => col;
 	}
 }

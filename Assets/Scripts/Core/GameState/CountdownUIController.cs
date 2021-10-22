@@ -2,7 +2,7 @@
 using System.Collections;
 using DG.Tweening;
 
-public class CourseHud : MonoBehaviour
+public class CountdownUIController : MonoBehaviour
 {
     [SerializeField]
     private GameState gameState;
