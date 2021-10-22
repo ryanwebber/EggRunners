@@ -2189,6 +2189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: {fileID: 455785721}
   maxProgressMarker: {fileID: 1865302489}
+  autoProgressSpeed: 1.5
 --- !u!114 &1760346508
 MonoBehaviour:
   m_ObjectHideFlags: 0
