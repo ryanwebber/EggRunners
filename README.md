@@ -12,11 +12,11 @@ and computers. Also, challenge yourself with time trials on difficult courses.
  - [x] Movement mechanics
  - [x] Obstacle kill-plane clipping
  - [x] Kill-plane physics disable
- - [ ] Player "death"
+ - [x] Player "death"
  - [x] Late-jump forgiveness
- - [ ] Camera panning
- - [ ] Level restart
- - [ ] Level complete
+ - [x] Camera panning
+ - [x] Level restart
+ - [x] Level complete
  - [ ] Race-variation supporting multi-player
  - [ ] Player collision mechanics
  - [ ] Player knockout tracking

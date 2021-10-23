@@ -23,6 +23,9 @@ public class PlayerService : MonoBehaviour
     private CourseProgress progressTracker;
 
     [SerializeField]
+    private Transform averagePlayerPosition;
+
+    [SerializeField]
     private CourseFinishZone finishZone;
 
     [SerializeField]
@@ -62,12 +65,18 @@ public class PlayerService : MonoBehaviour
         if (runners == null)
             return;
 
+        Vector3 cumulativeOffset = Vector3.zero;
+
         foreach (var runner in runners)
         {
             var instance = runner.instance;
             var playerIndex = runner.index;
 
-            progressTracker.RecordProgress(instance.transform.position);
+            if (runner.IsRunning)
+            {
+                progressTracker.RecordProgress(instance.Center);
+                cumulativeOffset += instance.Center - progressTracker.transform.position;
+            }
 
             if (finishZone.FinishBounds.Contains(instance.Center) && runners[playerIndex].IsRunning)
             {
@@ -84,6 +93,19 @@ public class PlayerService : MonoBehaviour
                     StartCoroutine(Coroutines.After(2f, () => BuildResultAndCompleteRound()));
             }
         }
+
+        // Max the camera should move
+        float maxXOffset = 6;
+
+        // Elasticity of camera movement
+        float dampeningFactor = 0.05f;
+
+        // x:0 => y:0
+        // x:inf => y:1
+        float yScalar = 1 - 1 / (1 + dampeningFactor * Mathf.Abs(cumulativeOffset.x));
+
+        // Final horizontal shift        
+        averagePlayerPosition.localPosition = new Vector3(yScalar * maxXOffset * Mathf.Sign(cumulativeOffset.x), 0, 0);
     }
 
     private void ResetRunnerAtStartPosition(CourseRunner runner)

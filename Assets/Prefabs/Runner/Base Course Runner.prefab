@@ -157,15 +157,15 @@ MonoBehaviour:
   airControlRate: 32
   jumpSpeed: 24
   jumpDuration: 0.06
-  preJumpBufferTime: 0.05
+  preJumpBufferTime: 0.025
   lateJumpForgivenessTime: 0.25
   airFriction: 0.5
   groundFriction: 100
   momentum: {x: 0, y: 0, z: 0}
   savedVelocity: {x: 0, y: 0, z: 0}
   savedMovementVelocity: {x: 0, y: 0, z: 0}
-  gravity: 124
-  gravityFallMultiplier: 2
+  gravity: 100
+  gravityFallMultiplier: 1.5
   slideGravity: 5
   slopeLimit: 80
   useLocalMomentum: 0
