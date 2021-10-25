@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6710691542705420934}
   m_Layer: 0
   m_Name: Ground
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34138,7 +34138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 607643610250554422, guid: 3cb89f4dad6204e25846f465f2fe08d3, type: 3}
       propertyPath: m_Name
-      value: SimpleSphereChunk Variant
+      value: SimpleSphereChunk
       objectReference: {fileID: 0}
     - target: {fileID: 2465604450241246839, guid: 3cb89f4dad6204e25846f465f2fe08d3, type: 3}
       propertyPath: unitLength

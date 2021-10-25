@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "IntValue", menuName = "Custom/Primitive/Integer")]
+[CreateAssetMenu(fileName = "Int Value", menuName = "Custom/Primitive/Integer")]
 public class IntValue : ScriptableObject
 {
     [SerializeField]

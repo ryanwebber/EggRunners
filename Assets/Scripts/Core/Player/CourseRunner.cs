@@ -20,8 +20,6 @@ public class CourseRunner : MonoBehaviour
     private void Awake()
     {
         MainInput = GetComponent<VirtualRunnerInput>();
-        MainInput.IsInputLocked = true;
-
         Events = GetComponent<CourseRunnerEvents>();
 
         Events.OnRunnerFinishDetected += () =>

@@ -13,7 +13,7 @@ public class CMFMovementController : Controller
 	protected CharacterInput characterInput;
 	protected CeilingDetector ceilingDetector;
 
-	public Mover Mover => mover;
+	public Mover Mover => mover ?? GetComponent<Mover>();
 
 	//Jump key variables;
 	bool jumpInputIsLocked = false;
@@ -40,7 +40,7 @@ public class CMFMovementController : Controller
 
 	[Tooltip("Amount of time a pre-jump can be buffered for and be used as a jump press")]
 	public float preJumpBufferTime = 0.1f;
-	float lastJumpPressTime = 0f;
+	float lastJumpPressTime = -1000f;
 
 	[Tooltip("Amount of time we will respect jump input since the user has become ungrounded")]
 	public float lateJumpForgivenessTime = 0.05f;

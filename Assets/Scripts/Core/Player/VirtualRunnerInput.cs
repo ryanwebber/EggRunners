@@ -3,6 +3,7 @@ using System.Collections;
 
 public class VirtualRunnerInput : MonoBehaviour
 {
+    [System.Serializable]
     public struct Input
     {
         public Vector2 movementValue;
@@ -16,6 +17,8 @@ public class VirtualRunnerInput : MonoBehaviour
 
     public bool IsInputLocked { get; set; }
 
+    [ReadOnly]
+    [SerializeField]
     private Input input;
     public Input CurrentInput => input;
 
