@@ -119,12 +119,12 @@ MonoBehaviour:
   startChunk: {fileID: 3131519838057270538}
   finishChunk: {fileID: 3131519839170577185}
   courseParent: {fileID: 8081577775707807248}
+  courseOverride: {fileID: 0}
   seasons:
   - {fileID: 11400000, guid: 00c8f74083f384c0da1af011b2c6a907, type: 2}
-  - {fileID: 11400000, guid: 178caba11041a4f12bba633e9a1c5824, type: 2}
   - {fileID: 11400000, guid: c2d499069ec7b47469e15726875fb87b, type: 2}
+  - {fileID: 11400000, guid: 178caba11041a4f12bba633e9a1c5824, type: 2}
   - {fileID: 11400000, guid: b63e4bf584ba644aeaf5cc27951efd1b, type: 2}
-  respectSeasons: 1
 --- !u!1 &8081577775580266308
 GameObject:
   m_ObjectHideFlags: 0

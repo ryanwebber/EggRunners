@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1854660591895015063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5715298749586325216}
+  m_Layer: 6
+  m_Name: Sensors (Sphere Cap)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5715298749586325216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854660591895015063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7486760741984618392}
+  - {fileID: 7139732913768863050}
+  m_Father: {fileID: 2573982580057812954}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &56158770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,15 +50,15 @@ MonoBehaviour:
   MaxStep: 10000
   area: {fileID: 0}
   movementController: {fileID: 1957386783021880742}
-  sensorObject: {fileID: 563925638905057507}
+  sensorObject: {fileID: 5715298749586325216}
   finishArea: {fileID: 0}
   useVectorObservations: 1
   trainingSettings:
-    ProgressReward: 1
+    ProgressReward: 2
     JumpPenalty: -1
-    StepPenalty: -0.1
-    RotatePenalty: -0.1
-    EliminationPenalty: -10
+    StepPenalty: -0.01
+    RotatePenalty: 0
+    EliminationPenalty: -100
     FinishingReward: 1000
   turnStepIncrement: 4
 --- !u!114 &56158771
@@ -42,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 6
+    VectorObservationSize: 4
     NumStackedVectorObservations: 2
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -73,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
---- !u!1 &5385218086553300906
+--- !u!1 &8334129971934734183
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,57 +113,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 563925638905057507}
-  - component: {fileID: 1104203563996117564}
+  - component: {fileID: 7139732913768863050}
+  - component: {fileID: 7061275207455904548}
   m_Layer: 0
-  m_Name: Sensors (Vision)
+  m_Name: Sensors (Core)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &563925638905057507
+--- !u!4 &7139732913768863050
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5385218086553300906}
-  m_LocalRotation: {x: 0.08715578, y: 0, z: 0, w: 0.9961947}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_GameObject: {fileID: 8334129971934734183}
+  m_LocalRotation: {x: 0.3197863, y: 0, z: 0, w: 0.94748974}
+  m_LocalPosition: {x: 0, y: 1.92, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2573982580057812954}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
---- !u!114 &1104203563996117564
+  m_Father: {fileID: 5715298749586325216}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 37.3, y: 0, z: 0}
+--- !u!114 &7061275207455904548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5385218086553300906}
+  m_GameObject: {fileID: 8334129971934734183}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fccc8ab80d46c4382970c22172c23eb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorName: Vision
-  direction: {x: 0, y: 0, z: 0, w: 1}
-  density: 255
-  arcSize: 0.9
-  detectableTags: []
-  raySettings:
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 1
-    maxRayDistance: 20
-  gizmoSettings:
-    showGizmos: 1
-    hitColor: {r: 1, g: 0, b: 0, a: 1}
-    missColor: {r: 0.2569139, g: 1, b: 0, a: 1}
-  rayCount: 53
---- !u!1 &6705060452526572930
+  m_SensorName: RayPerceptionSensor
+  m_DetectableTags: []
+  m_RaysPerDirection: 3
+  m_MaxRayDegrees: 70
+  m_SphereCastRadius: 0.5
+  m_RayLength: 20
+  m_RayLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967049
+  m_ObservationStacks: 1
+  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
+  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
+  m_StartVerticalOffset: 0
+  m_EndVerticalOffset: -10
+--- !u!1 &8899190493857987243
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,58 +170,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1690398496779038947}
-  - component: {fileID: 5859154208730435527}
+  - component: {fileID: 7486760741984618392}
+  - component: {fileID: 691420869797490020}
   m_Layer: 0
-  m_Name: Sensors (Polar)
+  m_Name: Sensors (Raised)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1690398496779038947
+  m_IsActive: 1
+--- !u!4 &7486760741984618392
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6705060452526572930}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 1}
+  m_GameObject: {fileID: 8899190493857987243}
+  m_LocalRotation: {x: 0.16435903, y: -0, z: -0, w: 0.9864006}
+  m_LocalPosition: {x: 0, y: 8.6, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2573982580057812954}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5859154208730435527
+  m_Father: {fileID: 5715298749586325216}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 18.92, y: 0, z: 0}
+--- !u!114 &691420869797490020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6705060452526572930}
+  m_GameObject: {fileID: 8899190493857987243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e614cef96e711429a89a8870952cb295, type: 3}
+  m_Script: {fileID: 11500000, guid: fccc8ab80d46c4382970c22172c23eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorName: Sensor_Grid
-  detectableTags:
-  - obstacle
+  sensorName: Vision2
+  direction: {x: 0, y: 0, z: 0, w: 1}
+  density: 130
+  arcSize: 0.88
+  detectableTags: []
   raySettings:
     layerMask:
       serializedVersion: 2
       m_Bits: 1
-    maxRayDistance: 24
-  numRows: 4
-  sliceWidthDegrees: 150
-  spread: 25.9
-  radius: 25
+    maxRayDistance: 40
   gizmoSettings:
     showGizmos: 1
     hitColor: {r: 1, g: 0, b: 0, a: 1}
-    missColor: {r: 0.6988884, g: 1, b: 0, a: 1}
-  rayCount: 15
+    missColor: {r: 0.2569139, g: 1, b: 0, a: 1}
+  rayCount: 25
 --- !u!1001 &484809616788377318
 PrefabInstance:
   m_ObjectHideFlags: 0

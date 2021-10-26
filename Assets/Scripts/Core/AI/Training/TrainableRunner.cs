@@ -64,10 +64,6 @@ public class TrainableRunner : Agent
         {
             sensor.AddObservation(transform.InverseTransformDirection(agentRb.velocity));
             sensor.AddObservation(movementController.IsGrounded());
-
-            var movementVec3 = Quaternion.Euler(0f, currentDirection, 0f) * Vector3.forward;
-            var movementVec2 = new Vector2(movementVec3.x, movementVec3.z);
-            sensor.AddObservation(movementVec2);
         }
     }
 

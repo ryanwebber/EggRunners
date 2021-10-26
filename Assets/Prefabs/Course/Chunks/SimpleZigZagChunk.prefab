@@ -516,7 +516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 607643610250554422, guid: 3cb89f4dad6204e25846f465f2fe08d3, type: 3}
       propertyPath: m_Name
-      value: SimpleGroundChunk (14)
+      value: SimpleZigZagChunk
       objectReference: {fileID: 0}
     - target: {fileID: 2465604450241246839, guid: 3cb89f4dad6204e25846f465f2fe08d3, type: 3}
       propertyPath: unitLength
