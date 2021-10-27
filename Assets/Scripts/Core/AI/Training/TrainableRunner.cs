@@ -14,13 +14,13 @@ public class TrainableRunner : Agent
     private TrainingArea area;
 
     [SerializeField]
+    private FinishChunkDetector finishArea;
+
+    [SerializeField]
     private CMFMovementController movementController;
 
     [SerializeField]
     private Transform sensorObject;
-
-    [SerializeField]
-    private Collider finishArea;
 
     [SerializeField]
     private bool useVectorObservations;
@@ -46,6 +46,17 @@ public class TrainableRunner : Agent
             Debug.Log("Agent eliminated...", this);
             AddReward(trainingSettings.EliminationPenalty);
             EndEpisode();
+        };
+
+        finishArea.OnRunnerEnterFinishArea += detectedRunner =>
+        {
+            if (detectedRunner == runner)
+            {
+                Debug.Log("Agent entered the finish area!");
+                area.OnCourseCompleted?.Invoke();
+                AddReward(trainingSettings.FinishingReward);
+                EndEpisode();
+            }    
         };
     }
 
@@ -177,16 +188,5 @@ public class TrainableRunner : Agent
         runner.MainInput.IsInputLocked = false;
 
         area.OnCourseActivate?.Invoke();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other == finishArea)
-        {
-            Debug.Log("Agent entered the finish area!");
-            area.OnCourseCompleted?.Invoke();
-            AddReward(trainingSettings.FinishingReward);
-            EndEpisode();
-        }
     }
 }

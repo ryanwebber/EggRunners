@@ -105,7 +105,7 @@ public class SphereCapRaycastSensor : SensorComponent
             rayDirection *= rayOutput.HitFraction;
 
             // hit fraction ^2 will shift "far" hits closer to the hit color
-            var lerpT = rayOutput.HitFraction * rayOutput.HitFraction;
+            var lerpT = rayOutput.HitFraction;
             var color = Color.Lerp(gizmoSettings.hitColor, gizmoSettings.missColor, lerpT);
             Gizmos.color = color;
             Gizmos.DrawRay(startPositionWorld, rayDirection);

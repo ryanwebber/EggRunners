@@ -1,37 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1854660591895015063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5715298749586325216}
-  m_Layer: 6
-  m_Name: Sensors (Sphere Cap)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5715298749586325216
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854660591895015063}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7486760741984618392}
-  - {fileID: 7139732913768863050}
-  m_Father: {fileID: 2573982580057812954}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &56158770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BrainParameters:
     VectorObservationSize: 4
-    NumStackedVectorObservations: 2
+    NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
       BranchSizes: 030000000300000002000000
@@ -105,6 +73,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!1 &1854660591895015063
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5715298749586325216}
+  m_Layer: 6
+  m_Name: Sensors (Sphere Cap)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5715298749586325216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854660591895015063}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7486760741984618392}
+  - {fileID: 7139732913768863050}
+  m_Father: {fileID: 2573982580057812954}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8334129971934734183
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7139732913768863050}
   - component: {fileID: 7061275207455904548}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: Sensors (Core)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_DetectableTags: []
   m_RaysPerDirection: 3
   m_MaxRayDegrees: 70
-  m_SphereCastRadius: 0.5
+  m_SphereCastRadius: 0.25
   m_RayLength: 20
   m_RayLayerMask:
     serializedVersion: 2
@@ -186,13 +186,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8899190493857987243}
-  m_LocalRotation: {x: 0.16435903, y: -0, z: -0, w: 0.9864006}
-  m_LocalPosition: {x: 0, y: 8.6, z: 0.5}
+  m_LocalRotation: {x: 0.19252197, y: 0, z: 0, w: 0.9812927}
+  m_LocalPosition: {x: 0, y: 5, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5715298749586325216}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 18.92, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 22.2, y: 0, z: 0}
 --- !u!114 &691420869797490020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,8 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensorName: Vision2
   direction: {x: 0, y: 0, z: 0, w: 1}
-  density: 130
-  arcSize: 0.88
+  density: 200
+  arcSize: 0.7
   detectableTags: []
   raySettings:
     layerMask:

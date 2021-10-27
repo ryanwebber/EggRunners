@@ -28,3 +28,24 @@ and computers. Also, challenge yourself with time trials on difficult courses.
  - [ ] Wall-running? Wall-jumping?
  - [ ] Level editor?
 
+## Computer Player Architecture
+
+ * Fully ML based
+  * Needs input "smoothing"
+  * Difficult to do special movement events (wall running)
+  * Flixible with things like moving platform
+  * Difficult to control difficulty
+  * Might be able to train against other players to get novel offensive capabilities
+ * Emergent approach
+  * Many small rules
+   * Jump if no floor in front of you
+   * Nav-mash forwards per-platform
+    * Where to actually go? Needs to be at a place that connects to next chunk
+    * Needs to be able to be dynamically generated
+   * How to do moving platforms?
+   * How to do wall jumps?
+   * How to handle branching decisions?
+   * How to handle offensive maneuvers?
+  * Maybe using decision trees?
+ * Hybrid approach?
+

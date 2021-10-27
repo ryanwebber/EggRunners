@@ -1,0 +1,41 @@
+{
+    "level": {
+        "lesson_num": 3
+    },
+    "SimpleRunner": {
+        "checkpoints": [
+            {
+                "steps": 499986,
+                "file_path": "results/SimpleRunner_004/SimpleRunner/SimpleRunner-499986.onnx",
+                "reward": 1314.6680515834264,
+                "creation_time": 1635307361.668972,
+                "auxillary_file_paths": [
+                    "results/SimpleRunner_004/SimpleRunner/SimpleRunner-499986.pt"
+                ]
+            },
+            {
+                "steps": 932399,
+                "file_path": "results/SimpleRunner_004/SimpleRunner/SimpleRunner-932399.onnx",
+                "reward": 895.3284683227539,
+                "creation_time": 1635312337.024414,
+                "auxillary_file_paths": [
+                    "results/SimpleRunner_004/SimpleRunner/SimpleRunner-932399.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 932399,
+            "file_path": "results/SimpleRunner_004/SimpleRunner.onnx",
+            "reward": 895.3284683227539,
+            "creation_time": 1635312337.024414,
+            "auxillary_file_paths": [
+                "results/SimpleRunner_004/SimpleRunner/SimpleRunner-932399.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.8.1"
+    }
+}
