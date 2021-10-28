@@ -49,14 +49,16 @@ public static class Coroutines
         action?.Invoke();
     }
 
-    public static IEnumerator Until(System.Func<bool> predicate)
+    public static IEnumerator Until(System.Func<bool> predicate, System.Action action = null)
     {
         yield return new WaitUntil(predicate);
+        action?.Invoke();
     }
 
-    public static IEnumerator While(System.Func<bool> predicate)
+    public static IEnumerator While(System.Func<bool> predicate, System.Action action = null)
     {
         yield return new WaitWhile(predicate);
+        action?.Invoke();
     }
 
     public static IEnumerator All(ICollection<IEnumerator> routines)

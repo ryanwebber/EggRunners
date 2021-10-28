@@ -419,18 +419,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc557ce87e1c24cf7b86209292063b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
   movementController: {fileID: 119590287}
-  numSteps: 5
-  stepSize: 4
-  testRadius: 0.5
-  maxSlopeGrade: 1
-  trajectoryAngles:
-  - 0
-  - -35
-  - 35
+  sensors:
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    numSteps: 10
+    stepSize: 2
+    angleOffset: 0
+    maxSlopeGrade: 1
+    weight: 1
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    numSteps: 3
+    stepSize: 1
+    angleOffset: -15
+    maxSlopeGrade: 1
+    weight: 0.5
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    numSteps: 3
+    stepSize: 1
+    angleOffset: 15
+    maxSlopeGrade: 1
+    weight: 0.5
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    numSteps: 6
+    stepSize: 2
+    angleOffset: 35
+    maxSlopeGrade: 1
+    weight: 0.3
+  - layerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    numSteps: 6
+    stepSize: 2
+    angleOffset: -35
+    maxSlopeGrade: 1
+    weight: 0.3
 --- !u!114 &1256392971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
@@ -442,6 +472,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5eb62a6e46a4e7ca248b5347700498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1268146626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7304345563672855137, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+  m_PrefabInstance: {fileID: 9044825797842232498}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1765667991
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,8 +621,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765667991}
-  m_LocalRotation: {x: 0.26098, y: -0.000000016610082, z: 0.0000000044905226, w: 0.96534425}
-  m_LocalPosition: {x: 64, y: 7, z: -12}
+  m_LocalRotation: {x: 0.25710553, y: -0.16572186, z: 0.044802766, w: 0.951013}
+  m_LocalPosition: {x: 65.058945, y: 7, z: -12.292696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1619,8 +1654,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3252412434256292687}
-  m_LocalRotation: {x: 0.26098, y: -0.000000016610082, z: 0.0000000044905226, w: 0.96534425}
-  m_LocalPosition: {x: 64, y: 7, z: -12}
+  m_LocalRotation: {x: 0.25710553, y: -0.16572186, z: 0.044802766, w: 0.951013}
+  m_LocalPosition: {x: 65.058945, y: 7, z: -12.292696}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3252412432356078267}
@@ -1645,8 +1680,8 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 12
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 0}
+  m_LookAt: {fileID: 9044825797842232499}
+  m_Follow: {fileID: 9044825797842232499}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
@@ -1656,7 +1691,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7785888, y: 1}
+    m_SensorSize: {x: 1.7789047, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1689,6 +1724,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3252412434073511166}
     m_Modifications:
+    - target: {fileID: 428301564201114548, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensor
+      value: 
+      objectReference: {fileID: 1256392971}
+    - target: {fileID: 428301564201114548, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: walkSensor
+      value: 
+      objectReference: {fileID: 1023805780}
+    - target: {fileID: 428301564201114548, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: movementController
+      value: 
+      objectReference: {fileID: 119590287}
+    - target: {fileID: 428301564201114548, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: forwardFacingChildren.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 428301564201114548, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: forwardFacingChildren.Array.data[0]
+      value: 
+      objectReference: {fileID: 1268146626}
     - target: {fileID: 641528138357017994, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
       propertyPath: jumpSensor
       value: 
@@ -1697,6 +1752,10 @@ PrefabInstance:
       propertyPath: walkSensor
       value: 
       objectReference: {fileID: 1023805780}
+    - target: {fileID: 641528138357017994, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: movementController
+      value: 
+      objectReference: {fileID: 119590287}
     - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
       propertyPath: maxAngle
       value: 15
@@ -1722,6 +1781,14 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
       propertyPath: trajectoryAngles.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -1732,6 +1799,70 @@ PrefabInstance:
     - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
       propertyPath: trajectoryAngles.Array.data[2]
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[0].numSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[0].stepSize
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[1].numSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[1].stepSize
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[2].numSteps
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[2].stepSize
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[0].numSteps
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[0].stepSize
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[1].numSteps
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[1].stepSize
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[2].numSteps
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[2].stepSize
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[1].angleOffset
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: dropSensors.Array.data[2].angleOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[1].angleOffset
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2694107443685942314, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+      propertyPath: jumpSensors.Array.data[2].angleOffset
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 3821618651660887636, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
       propertyPath: m_RootOrder
@@ -1785,7 +1916,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 641528138357017994, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
 --- !u!4 &9044825797842232499 stripped
 Transform:

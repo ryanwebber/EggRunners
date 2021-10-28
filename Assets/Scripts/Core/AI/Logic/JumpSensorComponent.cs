@@ -6,10 +6,16 @@ using System;
 public class JumpSensorComponent : MonoBehaviour
 {
     [System.Serializable]
-    public struct ArcPath
+    public class Sensor
     {
-        public int numTestSteps;
-        public float stepLength;
+        [SerializeField, Min(1f)]
+        public int numSteps = 5;
+
+        [SerializeField, Min(0f)]
+        public float stepSize = 2;
+
+        [SerializeField]
+        public float angleOffset = 0;
     }
 
     [System.Serializable]
@@ -35,13 +41,10 @@ public class JumpSensorComponent : MonoBehaviour
     private CMFMovementController movementController;
 
     [SerializeField]
-    private ArcPath jumpPath;
+    private List<Sensor> jumpSensors;
 
     [SerializeField]
-    private ArcPath dropPath;
-
-    [SerializeField]
-    private List<float> trajectoryAngles;
+    private List<Sensor> dropSensors;
 
     private Observation observation;
     public Observation CurrentObservation => observation;
@@ -51,16 +54,16 @@ public class JumpSensorComponent : MonoBehaviour
         observation = default;
 
         // Drop path
-        foreach (var angle in trajectoryAngles)
+        foreach (var sensor in dropSensors)
         {
-            if (TryFindUniqueCollisionAlongPath(GetDropSteps(angle), out var hit))
+            if (TryFindUniqueCollisionAlongPath(GetDropSteps(sensor), out var hit))
             {
                 observation.availableDropLanding = new Landing
                 {
                     collider = hit.collider,
                     surfaceNormal = hit.normal,
                     landingPosition = hit.point,
-                    relativeRotationOffset = angle,
+                    relativeRotationOffset = sensor.angleOffset,
                 };
 
                 break;
@@ -68,16 +71,16 @@ public class JumpSensorComponent : MonoBehaviour
         }
 
         // Jump path
-        foreach (var angle in trajectoryAngles)
+        foreach (var sensor in jumpSensors)
         {
-            if (TryFindUniqueCollisionAlongPath(GetJumpSteps(angle), out var hit))
+            if (TryFindUniqueCollisionAlongPath(GetJumpSteps(sensor), out var hit))
             {
                 observation.availableJumpLanding = new Landing
                 {
                     collider = hit.collider,
                     surfaceNormal = hit.normal,
                     landingPosition = hit.point,
-                    relativeRotationOffset = angle,
+                    relativeRotationOffset = sensor.angleOffset,
                 };
 
                 break;
@@ -85,32 +88,32 @@ public class JumpSensorComponent : MonoBehaviour
         }
     }
 
-    private IEnumerable<(Vector3 p1, Vector3 p2)> GetDropSteps(float angle)
+    private IEnumerable<(Vector3 p1, Vector3 p2)> GetDropSteps(Sensor sensor)
     {
         Vector3 previousPoint = transform.position;
-        Vector3 velocity = transform.rotation * Quaternion.Euler(0f, angle, 0f) * new Vector3(0f, 0f, movementController.movementSpeed);
-        for (int i = 0; i < dropPath.numTestSteps + 1; i++)
+        Vector3 velocity = transform.rotation * Quaternion.Euler(0f, sensor.angleOffset, 0f) * new Vector3(0f, 0f, movementController.movementSpeed);
+        for (int i = 0; i < sensor.numSteps+ 1; i++)
         {
-            Vector3 nextPoint = previousPoint + velocity * dropPath.stepLength;
+            Vector3 nextPoint = previousPoint + velocity * sensor.stepSize;
 
             yield return (previousPoint, nextPoint);
 
-            velocity.y -= movementController.gravity * dropPath.stepLength;
+            velocity.y -= movementController.gravity * sensor.stepSize;
             previousPoint = nextPoint;
         }
     }
 
-    private IEnumerable<(Vector3 p1, Vector3 p2)> GetJumpSteps(float angle)
+    private IEnumerable<(Vector3 p1, Vector3 p2)> GetJumpSteps(Sensor sensor)
     {
         Vector3 previousPoint = transform.position;
-        Vector3 velocity = transform.rotation * Quaternion.Euler(0f, angle, 0f) * new Vector3(0f, movementController.jumpSpeed, movementController.movementSpeed);
-        for (int i = 0; i < jumpPath.numTestSteps + 1; i++)
+        Vector3 velocity = transform.rotation * Quaternion.Euler(0f, sensor.angleOffset, 0f) * new Vector3(0f, movementController.jumpSpeed, movementController.movementSpeed);
+        for (int i = 0; i < sensor.numSteps + 1; i++)
         {
-            Vector3 nextPoint = previousPoint + velocity * jumpPath.stepLength;
+            Vector3 nextPoint = previousPoint + velocity * sensor.stepSize;
 
             yield return (previousPoint, nextPoint);
 
-            velocity.y -= movementController.gravity * jumpPath.stepLength;
+            velocity.y -= movementController.gravity * sensor.stepSize;
             previousPoint = nextPoint;
         }
     }
@@ -149,15 +152,12 @@ public class JumpSensorComponent : MonoBehaviour
     {
         Gizmos.color = Color.red;
 
-        foreach (var angle in trajectoryAngles)
-        {
-            // Drop path
-            foreach (var segment in GetDropSteps(angle))
+        foreach (var sensor in dropSensors)
+            foreach (var segment in GetDropSteps(sensor))
                 Gizmos.DrawLine(segment.p1, segment.p2);
 
-            // Jump path
-            foreach (var segment in GetJumpSteps(angle))
+        foreach (var sensor in jumpSensors)
+            foreach (var segment in GetJumpSteps(sensor))
                 Gizmos.DrawLine(segment.p1, segment.p2);
-        }
     }
 }

@@ -1,5 +1,15 @@
 {
+  "scopedRegistries": [
+    {
+      "name": "NPM",
+      "url": "https://registry.npmjs.org",
+      "scopes": [
+        "com.fluid"
+      ]
+    }
+  ],
   "dependencies": {
+    "com.fluid.behavior-tree": "2.2.3",
     "com.unity.cinemachine": "2.7.9",
     "com.unity.collab-proxy": "1.11.2",
     "com.unity.ide.rider": "3.0.7",
