@@ -388,6 +388,14 @@ namespace CMF
 			return sensor.GetCollider();
 		}
 
+		public Collider GetGroundColliderOrDefault()
+		{
+			if (sensor.HasDetectedHit())
+				return sensor.GetCollider();
+
+			return default;
+		}
+
 		public Collider GetBodyCollider() => col;
 	}
 }
