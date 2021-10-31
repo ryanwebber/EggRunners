@@ -8,6 +8,11 @@ public class VirtualRunnerInput : MonoBehaviour
     {
         public Vector2 movementValue;
         public bool isJumping;
+
+        public override string ToString()
+        {
+            return $"Input(movementInput={movementValue}, isJumping={isJumping})";
+        }
     }
 
     public delegate void InputUpdate(ref Input input);

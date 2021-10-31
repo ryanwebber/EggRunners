@@ -167,7 +167,7 @@ MonoBehaviour:
   gravity: 100
   gravityFallMultiplier: 1.5
   slideGravity: 5
-  slopeLimit: 80
+  slopeLimit: 60
   useLocalMomentum: 0
 --- !u!114 &1678075369414876332
 MonoBehaviour:
@@ -182,6 +182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputAdapter: {fileID: 215475049213467961}
+  input:
+    movementValue: {x: 0, y: 0}
+    isJumping: 0
 --- !u!114 &5881684740407654392
 MonoBehaviour:
   m_ObjectHideFlags: 0

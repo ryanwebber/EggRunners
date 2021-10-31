@@ -27,7 +27,13 @@ public class CourseRunner : MonoBehaviour
             Debug.Log("Player finish detected", this);
             MainInput.IsInputLocked = true;
             MainInput.ForceUpdateInput((ref VirtualRunnerInput.Input i) => i.movementValue = Vector2.up);
-            StartCoroutine(Coroutines.After(0.5f, () => MainInput.ResetInputAndLock()));
+            StartCoroutine(Coroutines.After(0.5f, () =>
+            {
+                // Make sure someone else hasn't rebooted the player and unlocked their input
+                // otherwise we're about to re-lock it, and it'll never get unlocked
+                if (MainInput.IsInputLocked)
+                    MainInput.ResetInputAndLock();
+            }));
         };
 
         Events.OnRunnerEliminationDetected += () =>
