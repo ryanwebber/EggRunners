@@ -28,6 +28,8 @@ public class CoursePathFinder: MonoBehaviour
         public Collider surface;
         public Nullable<VirtualRunnerInput.Input> firstInput;
 
+        public float quality;
+
         public SearchState(Vector3 currentPosition, float currentAngle, Collider surface)
         {
             this.stepCount = 0;
@@ -36,9 +38,10 @@ public class CoursePathFinder: MonoBehaviour
             this.previousPosition = currentPosition;
             this.surface = surface;
             this.firstInput = null;
+            this.quality = 1f;
         }
 
-        public SearchState Next(Vector3 newPosition, float newAngle, Collider collider, VirtualRunnerInput.Input input)
+        public SearchState Next(Vector3 newPosition, float newAngle, Collider collider, VirtualRunnerInput.Input input, float qualityMultiplier = 1f)
         {
             return new SearchState
             {
@@ -48,6 +51,7 @@ public class CoursePathFinder: MonoBehaviour
                 previousPosition = currentPosition,
                 surface = collider,
                 firstInput = firstInput == null ? input : firstInput,
+                quality = quality * qualityMultiplier,
             };
         }
     }
@@ -114,8 +118,14 @@ public class CoursePathFinder: MonoBehaviour
     [SerializeField, Range(0, 180f)]
     private float maxValidStartAngle = 90f;
 
+    [SerializeField, Min(1f)]
+    private float minImprovementIncrement = 0.5f;
+
     [SerializeField]
     private float hoverDistance = 0.1f;
+
+    [SerializeField, Min(0f)]
+    private float movementSpeedTestMultiplier = 0.95f;
 
     [Header("Jump Calculations")]
 
@@ -128,6 +138,9 @@ public class CoursePathFinder: MonoBehaviour
     [SerializeField, Min(0f)]
     private float jumpSimplificationTolerance = 1f;
 
+    [SerializeField, Min(0f)]
+    private float jumpHeightTestMultiplier = 0.9f;
+
     [SerializeField]
     private CMFMovementController movementController;
 
@@ -135,16 +148,14 @@ public class CoursePathFinder: MonoBehaviour
     private VirtualRunnerInput temporaryInputHook;
 
     private DebugState debugInfo;
+    private Vector2 inputDampening;
 
     // Caches
     private TrajectoryGenerator trajectoryGenerator;
 
     private void FixedUpdate()
     {
-        bool shouldTurnOffJump = temporaryInputHook.CurrentInput.isJumping;
         CalculatePaths();
-        if (shouldTurnOffJump)
-            temporaryInputHook?.UpdateInput((ref VirtualRunnerInput.Input i) => i.isJumping = false);
     }
 
     private void EnsureInitialized()
@@ -155,14 +166,33 @@ public class CoursePathFinder: MonoBehaviour
 
     private void CalculatePaths()
     {
-        var firstInput = InternalCalculatePaths();
-        if (firstInput.HasValue)
-            temporaryInputHook?.UpdateInput((ref VirtualRunnerInput.Input i) => i = firstInput.Value);
+        var wasJumping = temporaryInputHook.CurrentInput.isJumping;
+        var oldMovementInput = temporaryInputHook.CurrentInput.movementValue;
+        var searchState = InternalCalculatePaths();
+        if (searchState.firstInput.HasValue)
+        {
+            Debug.DrawLine(transform.position, searchState.currentPosition, Color.green);
+            temporaryInputHook?.UpdateInput((ref VirtualRunnerInput.Input i) =>
+            {
+                i.movementValue = searchState.firstInput.Value.movementValue;
+                i.isJumping = !wasJumping && searchState.firstInput.Value.isJumping;
+            });
+        }
         else
-            temporaryInputHook.ResetInput();
+        {
+            temporaryInputHook?.UpdateInput((ref VirtualRunnerInput.Input i) =>
+            {
+                i.isJumping = false;
+            });
+        }
+
+        temporaryInputHook?.UpdateInput((ref VirtualRunnerInput.Input i) =>
+        {
+            i.movementValue = Vector2.SmoothDamp(oldMovementInput, i.movementValue, ref inputDampening, 0.25f, 2f, Time.fixedDeltaTime);
+        });
     }
 
-    private Nullable<VirtualRunnerInput.Input> InternalCalculatePaths()
+    private SearchState InternalCalculatePaths()
     {
         EnsureInitialized();
 
@@ -170,7 +200,7 @@ public class CoursePathFinder: MonoBehaviour
 
         // 1. Find the surface plane
         if (!Physics.SphereCast(transform.position, 0.075f, -transform.up, out var hit, 1f, groundLayermask, QueryTriggerInteraction.Ignore))
-            return null;
+            return default;
 
         var surfaceNormal = hit.normal;
         var surfacePoint = hit.point;
@@ -208,12 +238,11 @@ public class CoursePathFinder: MonoBehaviour
             {
                 // We've reached as far as we want to search, and this is the path which
                 // deviates from the current path the least. Choose it
-                Debug.DrawLine(surfacePoint, currentPosition, Color.black);
-                return search.firstInput;
+                return search;
             }
-            else if (currentPosition.z - surfacePoint.z > bestDistance)
+            else if ((currentPosition.z - surfacePoint.z) * search.quality > bestDistance + minImprovementIncrement)
             {
-                bestDistance = currentPosition.z - surfacePoint.z;
+                bestDistance = (currentPosition.z - surfacePoint.z) * search.quality;
                 bestState = search;
             }
 
@@ -222,10 +251,17 @@ public class CoursePathFinder: MonoBehaviour
             Vector3 stepDirection = transform.rotation * Quaternion.Euler(0f, currentAngle, 0f) * Vector3.forward;
             Vector3 nextPoint = currentPosition + stepDirection * stepSize;
 
-            Debug.DrawLine(currentPosition, nextPoint, stepCount % 2 == 0 ? Color.magenta : Color.green);
+            Debug.DrawLine(currentPosition, nextPoint, stepCount % 2 == 0 ? Color.magenta : Color.cyan);
             // TODO: Handle slopes
 
-            if (Physics.Raycast(nextPoint, -transform.up, out var groundHit, 1f, groundLayermask, QueryTriggerInteraction.Ignore))
+            Debug.DrawRay(nextPoint, -transform.up, Color.magenta);
+
+            Vector3 down = transform.rotation * Quaternion.Euler(-5f, 0f, 0f) * Vector3.down;
+
+            bool isMoreGround = Physics.Raycast(nextPoint, down, out var groundHit, 1f, groundLayermask, QueryTriggerInteraction.Ignore);
+
+            // First, so we prefer trying to jump
+            if (isMoreGround)
             {
                 // Still ground in front of us, keep looking forward
                 var input = new VirtualRunnerInput.Input
@@ -236,21 +272,25 @@ public class CoursePathFinder: MonoBehaviour
 
                 ongoingSearches.Push(search.Next(nextPoint, nextAngle, groundHit.collider, input));
             }
-            else
+
+            if (!isMoreGround)
+            {
+                // Check if we can drop into this gap
+                var dropVelocity = new Vector3(0f, 0f, movementController.movementSpeed * movementSpeedTestMultiplier);
+                if (TryComputeAirialPath(nextPoint, nextAngle, dropVelocity, search, out var dropState))
+                    ongoingSearches.Push(dropState);
+            }
+
+            if (!isMoreGround || search.stepCount == 0)
             {
                 // Check if we can jump over this gap in front of us
-                var jumpVelocity = new Vector3(0f, movementController.jumpSpeed, movementController.movementSpeed);
+                var jumpVelocity = new Vector3(0f, movementController.jumpSpeed * jumpHeightTestMultiplier, movementController.movementSpeed * movementSpeedTestMultiplier);
                 if (TryComputeAirialPath(previousPosition, nextAngle, jumpVelocity, search, out var jumpState))
                     ongoingSearches.Push(jumpState);
-
-                // Check if we can drop into this gap
-                var dropVelocity = new Vector3(0f, 0f, movementController.movementSpeed);
-                if (TryComputeAirialPath(currentPosition, nextAngle, dropVelocity, search, out var dropState))
-                    ongoingSearches.Push(dropState);
             }
         }
 
-        return bestState.firstInput;
+        return bestState;
     }
 
     private bool TryComputeAirialPath(Vector3 startPosition, float nextAngle, Vector3 relativeVelocity, SearchState currentState, out SearchState resultState)
@@ -269,9 +309,14 @@ public class CoursePathFinder: MonoBehaviour
                 bool isSurfaceLandable = Vector3.Dot(jumpHit.normal, transform.up) > 0.6f;
                 bool isDifferentSurface = jumpHit.collider != currentState.surface;
 
+                var nearestPointOnCurrentSurfaceToLanding = currentState.surface.ClosestPointOnBounds(jumpHit.point);
+                var nearestPointOnNewSurfaceToCurrentPosition = jumpHit.collider.ClosestPointOnBounds(transform.position);
+                var isSteppableTransition = (Mathf.Abs(nearestPointOnCurrentSurfaceToLanding.z - nearestPointOnNewSurfaceToCurrentPosition.z) < 0.1f) &&
+                    (Mathf.Abs(nearestPointOnCurrentSurfaceToLanding.x - nearestPointOnNewSurfaceToCurrentPosition.x) < 0.1f);
+
                 Debug.DrawLine(path[j - 1], jumpHit.point, Color.blue);
 
-                if (isMovingDownwards && isSurfaceLandable && isDifferentSurface)
+                if (isMovingDownwards && isSurfaceLandable && isDifferentSurface && !isSteppableTransition)
                 {
                     var movementInput = currentState.firstInput == null ? Vector2.up : currentState.firstInput.Value.movementValue;
                     var input = new VirtualRunnerInput.Input
@@ -280,7 +325,7 @@ public class CoursePathFinder: MonoBehaviour
                         isJumping = relativeVelocity.y > 0.1f,
                     };
 
-                    resultState = currentState.Next(jumpHit.point + jumpHit.normal * hoverDistance, nextAngle, jumpHit.collider, input);
+                    resultState = currentState.Next(jumpHit.point + jumpHit.normal * hoverDistance, nextAngle, jumpHit.collider, input, 0.9f);
                     return true;
                 }
                 else

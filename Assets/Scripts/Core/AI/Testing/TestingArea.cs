@@ -90,28 +90,4 @@ public class TestingArea : MonoBehaviour
         if (finishChunk != null)
             yield return finishChunk;
     }
-
-    private void OnValidate()
-    {
-        if (disposableChunks == null)
-            disposableChunks = new List<CourseChunk>();
-
-        void ClearChunks()
-        {
-            foreach (var chunk in disposableChunks)
-                Destroy(chunk.gameObject);
-
-            disposableChunks.Clear();
-        }
-
-        if (courseList.Length == 0 && disposableChunks.Count > 0)
-            ClearChunks();
-
-        if (courseList.Length > 0 && courseList[0].chunks.Length != disposableChunks.Count)
-        {
-            ClearChunks();
-            var chunks = CreateChunkInstances(courseList[0].chunks);
-            builder.LayoutCourse(chunks);
-        }    
-    }
 }
