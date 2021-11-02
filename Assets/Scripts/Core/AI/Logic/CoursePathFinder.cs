@@ -317,7 +317,7 @@ public class CoursePathFinder: MonoBehaviour
                 bool hasDrop = TryComputeAirialPath(nextPoint, nextAngle, dropVelocity, search, out var dropState);
 
                 // Check if we can jump over this gap in front of us
-                bool hasJump = TryComputeAirialPath(previousPosition, nextAngle, jumpVelocity, search, out var jumpState);
+                bool hasJump = TryComputeAirialPath(currentPosition, nextAngle, jumpVelocity, search, out var jumpState);
 
                 if (hasDrop && hasJump && dropState.surface == jumpState.surface)
                 {

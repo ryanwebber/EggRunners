@@ -1905,17 +1905,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &119590287 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 980529653006654504, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
-  m_PrefabInstance: {fileID: 9044825797842232498}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819e818989d3a4bb28f295378352f8f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &119590288 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 285819169758348630, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
@@ -1927,71 +1916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c27fcbf4925b4b3da0692ce7c0c89ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &191486754
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 191486755}
-  - component: {fileID: 191486756}
-  m_Layer: 0
-  m_Name: Course Navigator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &191486755
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191486754}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 9044825797842232499}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &191486756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 191486754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44509145458ff45ce91e0d85a3092fa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundLayermask:
-    serializedVersion: 2
-    m_Bits: 1
-  alignmentRate: 0.04
-  stepSize: 0.8
-  maxLookaheadDistance: 16
-  extraPaths: 4
-  extraPathsStepAngle: 18
-  maxValidStartAngle: 90
-  minImprovementIncrement: 1
-  hoverDistance: 0.1
-  movementSpeedTestMultiplier: 0.975
-  minSlopeDetectionHeight: 0.5
-  minSlopeGradient: 0.25
-  jumpStepInterval: 0.1
-  jumpStepCount: 8
-  jumpSimplificationTolerance: 0.4
-  jumpHeightTestMultiplier: 0.975
-  movementController: {fileID: 119590287}
-  temporaryInputHook: {fileID: 9044825797842232500}
-  movementDapening: 0.5
-  maxMovementVelocityChange: 2
 --- !u!1 &232511240
 GameObject:
   m_ObjectHideFlags: 0
@@ -46644,7 +46568,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7492163, y: 1}
+    m_SensorSize: {x: 1.6798795, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -46732,14 +46656,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3821618651660887636, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
   m_PrefabInstance: {fileID: 9044825797842232498}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &9044825797842232500 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 523078371135036356, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
-  m_PrefabInstance: {fileID: 9044825797842232498}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6faa1fd96539f42bcb6797ddb206709e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

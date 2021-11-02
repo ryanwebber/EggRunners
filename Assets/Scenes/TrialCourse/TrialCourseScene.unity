@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.14550774, g: 0.9614236, b: 1.5400436, a: 1}
+  m_IndirectSpecularColor: {r: 0.14550774, g: 0.96191555, b: 1.5410225, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2077,8 +2077,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: 0.24567047, y: 0.000000007492287, z: -0.000000001898826, w: 0.96935344}
-  m_LocalPosition: {x: -0.00000016310851, y: 12.215396, z: -18.551506}
+  m_LocalRotation: {x: 0.24567047, y: -0.000000007492292, z: 0.0000000018988273, w: 0.96935344}
+  m_LocalPosition: {x: 0.00000016310862, y: 12.215396, z: -18.551506}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2205,6 +2205,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainController: {fileID: 455785724}
   playerPrefab: {fileID: 6860670389828679177, guid: 04ef50da8825440e6a6a10c0e95e2c86, type: 3}
+  computerPlayerPrefabs:
+  - {fileID: 285819169758348630, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
+  - {fileID: 285819169758348630, guid: ba4dc949137904c7aa87346dfe498466, type: 3}
   inputPrefab: {fileID: 4475986878726633723, guid: cf7123f9b0fef4e35ab3d0a855a9174b, type: 3}
   chunkList:
   - {fileID: 6580582145974383088, guid: 715421587eaa443e99f2fe3c83ee615f, type: 3}
@@ -3006,7 +3009,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.778672, y: 1}
+    m_SensorSize: {x: 1.6798795, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3022,8 +3025,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2079309805}
-  m_LocalRotation: {x: 0.24567047, y: 0.000000007492287, z: -0.000000001898826, w: 0.96935344}
-  m_LocalPosition: {x: -0.00000016310851, y: 12.215396, z: -18.551506}
+  m_LocalRotation: {x: 0.24567047, y: -0.000000007492292, z: 0.0000000018988273, w: 0.96935344}
+  m_LocalPosition: {x: 0.00000016310862, y: 12.215396, z: -18.551506}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 53190034}

@@ -14,6 +14,9 @@ public class TrialCourseInitializer : MonoBehaviour
     private CourseRunner playerPrefab;
 
     [SerializeField]
+    private List<CourseRunner> computerPlayerPrefabs;
+
+    [SerializeField]
     private AttachableInputSource inputPrefab;
 
     [SerializeField]
@@ -28,16 +31,21 @@ public class TrialCourseInitializer : MonoBehaviour
     private void InitializeScene(ISceneLoader loader, System.Action callback)
     {
         var layout = loader.GetContext<TrialCourseLayout>();
-        var playerRegistration = loader.GetContext<PlayerRegistration>();
+        var roster = loader.GetContext<CourseRoster>();
 
-        var parameters = new TrialParameters(playerRegistration, layout);
+        var parameters = new TrialParameters(roster, layout);
         mainController.BootGame(parameters);
     }
 
     private void SeedSceneWithMockData(IDebugSceneSeeder seeder)
     {
         var inputSourceInstance = Instantiate(inputPrefab);
-        seeder.AddContext(new PlayerRegistration(inputSourceInstance, playerPrefab));
+        var players = new List<PlayerRegistration>();
+        players.Add(new PlayerRegistration(inputSourceInstance, playerPrefab));
+        foreach (var cpu in computerPlayerPrefabs)
+            players.Add(new PlayerRegistration(null, cpu));
+
+        seeder.AddContext(new CourseRoster(players));
         seeder.AddContext(new TrialCourseLayout(chunkList));
     }
 }

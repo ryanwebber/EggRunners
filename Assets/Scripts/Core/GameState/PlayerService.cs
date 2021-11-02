@@ -52,11 +52,13 @@ public class PlayerService : MonoBehaviour
             Debug.Log("Resetting players");
             for (int i = 0; i < runners.Length; i++)
             {
-                ResetRunnerAtStartPosition(runners[i].instance);
+                ResetRunner(runners[i].instance);
 
                 runners[i].result = null;
                 runners[i].instance.Events.OnRunnerDidReset?.Invoke();
             }
+
+            RandomizeStartPositions();
         };
     }
 
@@ -108,14 +110,29 @@ public class PlayerService : MonoBehaviour
         averagePlayerPosition.localPosition = new Vector3(yScalar * maxXOffset * Mathf.Sign(cumulativeOffset.x), 0, 0);
     }
 
-    private void ResetRunnerAtStartPosition(CourseRunner runner)
+    private void ResetRunner(CourseRunner runner)
     {
         Debug.Log("Resetting player at spawn", this);
         runner.Center = SpawnPoint.position;
         runner.transform.localScale = Vector3.one;
         runner.transform.up = Vector3.up;
         runner.MainInput.IsInputLocked = true;
-    }    
+    }
+
+    private void RandomizeStartPositions()
+    {
+        int runnerCount = runners.Length;
+        float spacing = 1.8f;
+
+        List<Transform> transforms = new List<Transform>(runners.Select(r => r.instance.transform));
+        Collections.Shuffle(transforms);
+
+        var xOffset = ((runnerCount - 1) * spacing) / 2f;
+        for (int i = 0; i < runnerCount; i++)
+        {
+            transforms[i].position = SpawnPoint.position + (Vector3.left * xOffset) + (Vector3.right * i * spacing);
+        }
+    }
 
     public void LoadRoster(CourseRoster roster)
     {
@@ -132,7 +149,7 @@ public class PlayerService : MonoBehaviour
             if (contestant.InputSource != null)
                 instance.MakePlayableByHuman(contestant.InputSource);
 
-            ResetRunnerAtStartPosition(instance);
+            ResetRunner(instance);
             instance.Events.OnRunnerDidSpawn?.Invoke();
 
             instance.Events.OnRunnerEliminationSequenceComplete += () =>
@@ -161,6 +178,8 @@ public class PlayerService : MonoBehaviour
                 result = null,
             };
         }
+
+        RandomizeStartPositions();
     }
 
     private bool IsRoundComplete() => runners.All(state => !state.IsRunning);
