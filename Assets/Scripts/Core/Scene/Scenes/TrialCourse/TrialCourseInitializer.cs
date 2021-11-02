@@ -14,13 +14,16 @@ public class TrialCourseInitializer : MonoBehaviour
     private CourseRunner playerPrefab;
 
     [SerializeField]
+    private bool spawnCPUs;
+
+    [SerializeField]
     private List<CourseRunner> computerPlayerPrefabs;
 
     [SerializeField]
     private AttachableInputSource inputPrefab;
 
     [SerializeField]
-    private List<CourseChunk> chunkList;
+    private TrainingCourse course;
 
     private void Awake()
     {
@@ -42,10 +45,12 @@ public class TrialCourseInitializer : MonoBehaviour
         var inputSourceInstance = Instantiate(inputPrefab);
         var players = new List<PlayerRegistration>();
         players.Add(new PlayerRegistration(inputSourceInstance, playerPrefab));
-        foreach (var cpu in computerPlayerPrefabs)
-            players.Add(new PlayerRegistration(null, cpu));
+
+        if (spawnCPUs)
+            foreach (var cpu in computerPlayerPrefabs)
+                players.Add(new PlayerRegistration(null, cpu));
 
         seeder.AddContext(new CourseRoster(players));
-        seeder.AddContext(new TrialCourseLayout(chunkList));
+        seeder.AddContext(new TrialCourseLayout(course.chunks));
     }
 }

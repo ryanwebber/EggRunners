@@ -152,21 +152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819e818989d3a4bb28f295378352f8f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
+  movementSpeed: 8
   maximumVelocity: 60
   airControlRate: 32
-  jumpSpeed: 24
+  jumpSpeed: 18
   jumpDuration: 0.06
   preJumpBufferTime: 0.025
-  lateJumpForgivenessTime: 0.25
+  lateJumpForgivenessTime: 0.125
   airFriction: 0.5
   groundFriction: 100
   momentum: {x: 0, y: 0, z: 0}
   savedVelocity: {x: 0, y: 0, z: 0}
   savedMovementVelocity: {x: 0, y: 0, z: 0}
-  gravity: 100
+  gravity: 60
   gravityFallMultiplier: 1.5
-  slideGravity: 5
+  slideGravity: 24
   slopeLimit: 60
   useLocalMomentum: 0
 --- !u!114 &1678075369414876332
