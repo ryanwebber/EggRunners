@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933ce7abc83684a47a8a003ce6a4e77e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputSourcePrefab: {fileID: 4475986878726633723, guid: cf7123f9b0fef4e35ab3d0a855a9174b, type: 3}
 --- !u!1001 &1327918129737648234
 PrefabInstance:
   m_ObjectHideFlags: 0
