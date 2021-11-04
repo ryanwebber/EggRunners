@@ -8,8 +8,30 @@ public class CourseRunner : MonoBehaviour
     [SerializeField]
     private PlayerInputBinder playerInputBinder;
 
-    public CourseRunnerEvents Events { get; private set; }
-    public VirtualRunnerInput MainInput { get; private set; }
+    public CourseRunnerEvents Events
+    {
+        get
+        {
+            if (events == null)
+                events = GetComponent<CourseRunnerEvents>();
+            
+            return events;
+        }
+    }
+
+    public VirtualRunnerInput MainInput
+    {
+        get
+        {
+            if (mainInput == null)
+                mainInput = GetComponent<VirtualRunnerInput>();
+
+            return mainInput;
+        }
+    }
+
+    private CourseRunnerEvents events;
+    private VirtualRunnerInput mainInput;
 
     public Vector3 Center
     {
@@ -19,8 +41,8 @@ public class CourseRunner : MonoBehaviour
 
     private void Awake()
     {
-        MainInput = GetComponent<VirtualRunnerInput>();
-        Events = GetComponent<CourseRunnerEvents>();
+        mainInput = GetComponent<VirtualRunnerInput>();
+        events = GetComponent<CourseRunnerEvents>();
 
         Events.OnRunnerFinishDetected += () =>
         {

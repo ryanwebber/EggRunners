@@ -51,21 +51,6 @@ public class CMFMovementController : Controller
 	public float airFriction = 0.5f;
 	public float groundFriction = 100f;
 
-	//Current momentum;
-	[ReadOnly]
-	[SerializeField]
-	protected Vector3 momentum = Vector3.zero;
-
-	//Saved velocity from last frame;
-	[ReadOnly]
-	[SerializeField]
-	Vector3 savedVelocity = Vector3.zero;
-
-	//Saved horizontal movement velocity from last frame;
-	[ReadOnly]
-	[SerializeField]
-	Vector3 savedMovementVelocity = Vector3.zero;
-
 	// Time stamp of being grounded last
 	float timeLastGrounded = 0f;
 
@@ -83,6 +68,26 @@ public class CMFMovementController : Controller
 
 	[Tooltip("Whether to calculate and apply momentum relative to the controller's transform.")]
 	public bool useLocalMomentum = false;
+
+	[Tooltip("Layermask of objects to apply impulse momentum from on collision")]
+	public LayerMask impulseLayerMask;
+
+	public float baseImpulseScale = 1.5f;
+
+	//Current momentum;
+	[ReadOnly]
+	[SerializeField]
+	protected Vector3 momentum = Vector3.zero;
+
+	//Saved velocity from last frame;
+	[ReadOnly]
+	[SerializeField]
+	Vector3 savedVelocity = Vector3.zero;
+
+	//Saved horizontal movement velocity from last frame;
+	[ReadOnly]
+	[SerializeField]
+	Vector3 savedMovementVelocity = Vector3.zero;
 
 	//Enum describing basic controller states; 
 	public enum ControllerState
@@ -681,5 +686,19 @@ public class CMFMovementController : Controller
 			momentum = tr.worldToLocalMatrix * _newMomentum;
 		else
 			momentum = _newMomentum;
+	}
+
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (Time.fixedDeltaTime > 0f && ((1 << collision.collider.gameObject.layer) & impulseLayerMask) != 0)
+		{
+			float bounce = collision.collider.material == null ? 0.5f : collision.collider.material.bounciness;
+			float scale = baseImpulseScale * bounce;
+
+			Debug.Log($"Applying impulse of {collision.impulse} at scale {scale} to runner", this);
+
+			if (scale > 0f)
+				AddMomentum(collision.impulse * scale);
+		}
 	}
 }
