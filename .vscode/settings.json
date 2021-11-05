@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/*.meta": true,
+        "**/*.prefab": true,
+        "**/*.unity": true,
+        "**/*.asset": true,
+        "Logs/": true,
+        "Packages/": true,
+        "ProjectSettings/": true,
+        "UserSettings/": true,
+        "Library/": true,
+        "Temp/": true,
+        "obj/": true,
+    }
+}

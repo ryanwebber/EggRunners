@@ -695,10 +695,17 @@ public class CMFMovementController : Controller
 			float bounce = collision.collider.material == null ? 0.5f : collision.collider.material.bounciness;
 			float scale = baseImpulseScale * bounce;
 
-			Debug.Log($"Applying impulse of {collision.impulse} at scale {scale} to runner", this);
+			// Sometimes impulse is in the wrong direction because the player hits the object. The normal
+			// is in the right direction, but scaled wrong, so we can just combine them
+			Vector3 impulse = Vector3.zero;
+			for (int i = 0; i < collision.contactCount; i++)
+				impulse += collision.GetContact(i).normal;
+			impulse = impulse.normalized * collision.impulse.magnitude;
 
-			if (scale > 0f)
-				AddMomentum(collision.impulse * scale);
+			Debug.Log($"Applying impulse of {impulse} at scale {scale} to runner (used {collision.contactCount} contacts)", this);
+
+			if (scale > 0f && impulse.sqrMagnitude > 0.1f)
+				AddMomentum(impulse * scale);
 		}
 	}
 }

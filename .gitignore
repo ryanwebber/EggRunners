@@ -73,3 +73,5 @@ crashlytics-build.properties
 # Default MLAgent dir
 results/
 
+# OS Files
+.DS_Store

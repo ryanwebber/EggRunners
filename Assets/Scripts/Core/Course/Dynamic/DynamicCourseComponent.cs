@@ -13,6 +13,6 @@ public class DynamicCourseComponent : MonoBehaviour
         {
             chunk.OnChunkDynamicsActivated += () => OnDynamicComponentStart?.Invoke();
             chunk.OnChunkDynamicsReset += () => OnDynamicComponentReset?.Invoke();
-        }    
+        }
     }
 }

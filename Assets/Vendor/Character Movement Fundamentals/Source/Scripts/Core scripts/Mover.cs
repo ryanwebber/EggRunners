@@ -46,6 +46,8 @@ namespace CMF
 		//Current upwards (or downwards) velocity necessary to keep the correct distance to the ground;
 		Vector3 currentGroundAdjustmentVelocity = Vector3.zero;
 
+		public Vector3 CurrentVelocity => rig.velocity;
+
 		//References to attached components;
 		Collider col;
 		Rigidbody rig;
