@@ -19,9 +19,9 @@ public static class StaticBoot
     System Language: {Application.systemLanguage}
     ");
 
-#if UNITY_EDITOR
-        Debug.Log("Limiting target frame rate to 60...");
-        Application.targetFrameRate = 60;
+#if UNITY_EDITOR && UNITY_EDITOR_OSX
+        Debug.Log("Running in MacOS editor, limiting framerate to prevent stutter");
+        Application.targetFrameRate = 40;
 #endif
 
         // DOTween Initialization. Safe mode is off due to a UWP bug

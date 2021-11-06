@@ -26,7 +26,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -111,14 +111,14 @@ Material:
     m_Ints: []
     m_Floats:
     - Transparency: 1
-    - Vector1_7aa7c5c194f44b3a848dc2817bda5484: 0.1
+    - Vector1_7aa7c5c194f44b3a848dc2817bda5484: 0
     - Vector1_b95f5df29bf14fb1ab03f46258cf4ca5: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Clip: 1
+    - _Clip: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
@@ -150,12 +150,12 @@ Material:
     - Color_15c94d4aaf4e41e8920e13c64378e518: {r: 31.603281, g: 2.236081, b: 13.779257, a: 1}
     - Color_545a3288947e405b85b5149ca7e14408: {r: 0, g: 0, b: 0, a: 0}
     - Color_6b39ada1be9145b9aa92d30541ab8584: {r: 0, g: 0, b: 0, a: 0}
-    - Tint: {r: 1, g: 1, b: 1, a: 1}
+    - Tint: {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 1}
     - Vector3_f0f6fe62ba964495ac8500f7066d359f: {r: 0, g: 0, b: 0, a: 0}
     - Vector4_80ac312c5140458083d721c287f02199: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _NearClippingPlane: {r: 0, g: 0, b: -1, a: 130.61583}
+    - _NearClippingPlane: {r: 0, g: 0, b: -1, a: -5}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

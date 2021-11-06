@@ -699,13 +699,20 @@ public class CMFMovementController : Controller
 			// is in the right direction, but scaled wrong, so we can just combine them
 			Vector3 impulse = Vector3.zero;
 			for (int i = 0; i < collision.contactCount; i++)
+            {
 				impulse += collision.GetContact(i).normal;
+				Debug.DrawRay(collision.GetContact(i).point, collision.GetContact(i).normal, Color.yellow, 1f);
+			}
+
 			impulse = impulse.normalized * collision.impulse.magnitude;
 
 			Debug.Log($"Applying impulse of {impulse} at scale {scale} to runner (used {collision.contactCount} contacts)", this);
 
 			if (scale > 0f && impulse.sqrMagnitude > 0.1f)
+            {
 				AddMomentum(impulse * scale);
+				Debug.DrawRay(transform.position, impulse, Color.green, 1f);
+			}
 		}
 	}
 }
