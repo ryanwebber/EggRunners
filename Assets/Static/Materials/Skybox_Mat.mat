@@ -167,6 +167,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaClip: 0
     - _AtmosphereThickness: 0.62
@@ -252,5 +253,5 @@ Material:
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Tint: {r: 0.29383236, g: 0.71118885, b: 0.8773585, a: 0.5}
+    - _Tint: {r: 0.23148806, g: 0.73079675, b: 0.9622642, a: 0.5}
   m_BuildTextureStacks: []
