@@ -6,6 +6,49 @@ using CMF;
 
 public class CMFMovementController : Controller
 {
+	public class KeyState
+    {
+		public string Name { get; private set; }
+		public float LastPressedTime { get; private set; }
+		public bool IsKeyPressed { get; private set; }
+		public bool WasKeyPressed { get; private set; }
+		public bool WasKeyReleased { get; private set; }
+
+		public bool IsKeyLocked { get; set; }
+
+		public KeyState(string name)
+        {
+			Name = name;
+			LastPressedTime = -1000f;
+			IsKeyPressed = false;
+			WasKeyPressed = false;
+			WasKeyReleased = false;
+			IsKeyLocked = false;
+        }
+
+		public void Update(bool newState)
+        {
+			if (newState == true)
+				LastPressedTime = Time.time;
+
+			if (IsKeyPressed == false && newState == true)
+				WasKeyPressed = true;
+
+			if (IsKeyPressed == true && newState == false)
+			{
+				WasKeyReleased = true;
+				IsKeyLocked = false;
+			}
+
+			IsKeyPressed = newState;
+		}
+
+		public void Reset()
+        {
+			WasKeyReleased = false;
+			WasKeyPressed = false;
+		}
+    }
 
 	//References to attached components;
 	protected Transform tr;
@@ -15,11 +58,7 @@ public class CMFMovementController : Controller
 
 	public Mover Mover => mover ?? GetComponent<Mover>();
 
-	//Jump key variables;
-	bool jumpInputIsLocked = false;
-	bool jumpKeyWasPressed = false;
-	bool jumpKeyWasLetGo = false;
-	bool jumpKeyIsPressed = false;
+	public KeyState jumpKeyState = new KeyState("Jump");
 
 	//Movement speed;
 	public float movementSpeed = 7f;
@@ -40,10 +79,11 @@ public class CMFMovementController : Controller
 
 	[Tooltip("Amount of time a pre-jump can be buffered for and be used as a jump press")]
 	public float preJumpBufferTime = 0.1f;
-	float lastJumpPressTime = -1000f;
 
 	[Tooltip("Amount of time we will respect jump input since the user has become ungrounded")]
 	public float lateJumpForgivenessTime = 0.05f;
+
+	// Refers to whether we can jump after becoming un-grounded for a short time
 	bool isLateForgivenessJumpPrevented = false;
 
 	//'AirFriction' determines how fast the controller loses its momentum while in the air;
@@ -122,27 +162,7 @@ public class CMFMovementController : Controller
 
 	void Update()
 	{
-		HandleJumpKeyInput();
-	}
-
-	//Handle jump booleans for later use in FixedUpdate;
-	void HandleJumpKeyInput()
-	{
-		bool _newJumpKeyPressedState = IsJumpKeyPressed();
-
-		if (_newJumpKeyPressedState == true)
-			lastJumpPressTime = Time.time;
-
-		if (jumpKeyIsPressed == false && _newJumpKeyPressedState == true)
-			jumpKeyWasPressed = true;
-
-		if (jumpKeyIsPressed == true && _newJumpKeyPressedState == false)
-		{
-			jumpKeyWasLetGo = true;
-			jumpInputIsLocked = false;
-		}
-
-		jumpKeyIsPressed = _newJumpKeyPressedState;
+		jumpKeyState.Update(characterInput?.IsJumpKeyPressed() ?? false);
 	}
 
 	void FixedUpdate()
@@ -195,8 +215,7 @@ public class CMFMovementController : Controller
 		savedMovementVelocity = CalculateMovementVelocity();
 
 		//Reset jump key booleans;
-		jumpKeyWasLetGo = false;
-		jumpKeyWasPressed = false;
+		jumpKeyState.Reset();
 
 		//Reset ceiling detector, if one is attached to this gameobject;
 		if (ceilingDetector != null)
@@ -234,16 +253,6 @@ public class CMFMovementController : Controller
 		_velocity *= movementSpeed;
 
 		return _velocity;
-	}
-
-	//Returns 'true' if the player presses the jump key;
-	protected virtual bool IsJumpKeyPressed()
-	{
-		//If no character input script is attached to this object, return;
-		if (characterInput == null)
-			return false;
-
-		return characterInput.IsJumpKeyPressed();
 	}
 
 	//Determine current controller state based on current momentum and whether the controller is grounded (or not);
@@ -356,7 +365,7 @@ public class CMFMovementController : Controller
 				return ControllerState.Rising;
 
 			//Check if jump key was let go;
-			if (jumpKeyWasLetGo)
+			if (jumpKeyState.WasKeyReleased)
 				return ControllerState.Rising;
 
 			//If a ceiling detector has been attached to this gameobject, check for ceiling hits;
@@ -377,27 +386,27 @@ public class CMFMovementController : Controller
 	//Check if player has initiated a jump;
 	void HandleJumping()
 	{
-		bool CanJump()
-		{
+		bool CanJump(KeyState keyState, bool isLatePressAllowed, float prePressBufferTime)
+        {
 			switch (currentControllerState)
-            {
+			{
 				case ControllerState.Grounded:
-                    {
-						return (jumpKeyIsPressed == true || jumpKeyWasPressed || Time.time < lastJumpPressTime + preJumpBufferTime) && !jumpInputIsLocked;
+					{
+						return (keyState.IsKeyPressed == true || keyState.WasKeyPressed || Time.time < keyState.LastPressedTime + prePressBufferTime) && !keyState.IsKeyLocked;
 					}
 				case ControllerState.Falling:
 				case ControllerState.Sliding:
-                    {
-						return (jumpKeyIsPressed == true || jumpKeyWasPressed) && Time.time < timeLastGrounded + lateJumpForgivenessTime && !jumpInputIsLocked && !isLateForgivenessJumpPrevented;
+					{
+						return (keyState.IsKeyPressed == true || keyState.WasKeyPressed) && Time.time < keyState.LastPressedTime + prePressBufferTime && !keyState.IsKeyLocked && isLatePressAllowed;
 					}
 				default:
-                    {
+					{
 						return false;
 					}
 			}
 		}
 
-		if (CanJump())
+		if (CanJump(jumpKeyState, !isLateForgivenessJumpPrevented, preJumpBufferTime))
         {
 			// We don't do late forgiveness jumps if you stopped being grounded because you jumped. That's just a double-jump
 			isLateForgivenessJumpPrevented = true;
@@ -505,7 +514,7 @@ public class CMFMovementController : Controller
 		if (currentControllerState == ControllerState.Jumping)
 		{
 			momentum = VectorMath.RemoveDotVector(momentum, tr.up);
-			momentum += tr.up * jumpSpeed;
+			momentum += JumpMomentum();
 		}
 
 		if (useLocalMomentum)
@@ -514,6 +523,8 @@ public class CMFMovementController : Controller
 		//Finally, clamp momentum if it is too big
 		momentum = Vector3.ClampMagnitude(momentum, maximumVelocity);
 	}
+
+	private Vector3 JumpMomentum() => tr.up * jumpSpeed;
 
 	//Events;
 
@@ -524,14 +535,13 @@ public class CMFMovementController : Controller
 		if (useLocalMomentum)
 			momentum = tr.localToWorldMatrix * momentum;
 
-		//Add jump force to momentum;
-		momentum += tr.up * jumpSpeed;
+		momentum += JumpMomentum();
 
 		//Set jump start time;
 		currentJumpStartTime = Time.time;
 
 		//Lock jump input until jump key is released again;
-		jumpInputIsLocked = true;
+		jumpKeyState.IsKeyLocked = true;
 
 		//Call event;
 		if (OnJump != null)

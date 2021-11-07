@@ -31,6 +31,9 @@ public class PlayerService : MonoBehaviour
     [SerializeField]
     private Transform SpawnPoint;
 
+    [SerializeField]
+    private float spawnSpread = 2f;
+
     private float runStartTime = 0f;
     private RunnerState[] runners;
     private CourseRoster roster;
@@ -122,15 +125,14 @@ public class PlayerService : MonoBehaviour
     private void RandomizeStartPositions()
     {
         int runnerCount = runners.Length;
-        float spacing = 1.8f;
 
         List<Transform> transforms = new List<Transform>(runners.Select(r => r.instance.transform));
         Collections.Shuffle(transforms);
 
-        var xOffset = ((runnerCount - 1) * spacing) / 2f;
+        var xOffset = ((runnerCount - 1) * spawnSpread) / 2f;
         for (int i = 0; i < runnerCount; i++)
         {
-            transforms[i].position = SpawnPoint.position + (Vector3.left * xOffset) + (Vector3.right * i * spacing);
+            transforms[i].position = SpawnPoint.position + (Vector3.left * xOffset) + (Vector3.right * i * spawnSpread);
         }
     }
 

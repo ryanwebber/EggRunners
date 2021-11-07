@@ -9,7 +9,10 @@ public static class InputSourceUtils
     private class DetachedInputSource : IInputSource
     {
         public Vector2 MovementValue => Vector2.zero;
+
         public bool IsJumpPressed => false;
+        public bool IsDashPressed => false;
+
         public PlayerIdentifier InputIdentifier => PlayerIdentifier.Default;
     }
 }

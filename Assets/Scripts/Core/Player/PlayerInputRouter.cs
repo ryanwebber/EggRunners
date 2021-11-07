@@ -45,6 +45,7 @@ public class PlayerInputRouter : MonoBehaviour
         {
             forwardingInput.UpdateInput((ref VirtualRunnerInput.Input i) => {
                 i.isJumping = currentSource.IsJumpPressed;
+                i.isDashing = currentSource.IsDashPressed;
                 i.movementValue = currentSource.MovementValue;
             });
         }

@@ -8,10 +8,11 @@ public class VirtualRunnerInput : MonoBehaviour
     {
         public Vector2 movementValue;
         public bool isJumping;
+        public bool isDashing;
 
         public override string ToString()
         {
-            return $"Input(movementInput={movementValue}, isJumping={isJumping})";
+            return $"Input(movementInput={movementValue}, isJumping={isJumping}, isDashing={isDashing})";
         }
     }
 
@@ -19,6 +20,9 @@ public class VirtualRunnerInput : MonoBehaviour
 
     [SerializeField]
     private CMFInputAdapter inputAdapter;
+
+    [SerializeField]
+    private PlayerBumper bumpController;
 
     public bool IsInputLocked { get; set; }
 
@@ -42,6 +46,7 @@ public class VirtualRunnerInput : MonoBehaviour
         block?.Invoke(ref input);
         inputAdapter.MovementInput = input.movementValue;
         inputAdapter.IsJumping = input.isJumping;
+        bumpController.UpdateBumpState(input.isDashing, input.movementValue);
     }
 
     public void ResetInputAndLock()

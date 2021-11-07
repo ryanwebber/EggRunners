@@ -34,11 +34,6 @@ public class AttachableInputSource : MonoBehaviour
                 }
             }
         };
-
-        //InputSystem.InputSystem.onEvent += (eventPtr, device) =>
-        //{
-        //    Debug.Log($"Got event: {eventPtr.ToString()} onDevice={device.name}");
-        //};
     }
 
     public void OnPlayerMove(InputSystem.InputAction.CallbackContext ctx)
@@ -51,9 +46,15 @@ public class AttachableInputSource : MonoBehaviour
         relayedSource.IsJumpPressed = ctx.ReadValueAsButton();
     }
 
+    public void OnPlayerDashAction(InputSystem.InputAction.CallbackContext ctx)
+    {
+        relayedSource.IsDashPressed = ctx.ReadValueAsButton();
+    }
+
     private class RelayInputSource : IInputSource
     {
         public bool IsJumpPressed { get; set; } = false;
+        public bool IsDashPressed { get; set; } = false;
         public Vector2 MovementValue { get; set; } = Vector2.zero;
         public PlayerIdentifier InputIdentifier { get; set; }
 

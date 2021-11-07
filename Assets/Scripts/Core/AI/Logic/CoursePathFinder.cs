@@ -115,9 +115,6 @@ public class CoursePathFinder: MonoBehaviour
     [SerializeField, Min(0f)]
     private float extraPathsStepAngle = 10;
 
-    [SerializeField, Range(0, 180f)]
-    private float maxValidStartAngle = 90f;
-
     [SerializeField, Min(1f)]
     private float minImprovementIncrement = 0.5f;
 
@@ -129,9 +126,6 @@ public class CoursePathFinder: MonoBehaviour
 
     [SerializeField, Min(0f)]
     private float minSlopeDetectionHeight = 0.5f;
-
-    [SerializeField, Min(0.1f)]
-    private float minSlopeGradient = 0.5f;
 
     [Header("Jump Calculations")]
 
