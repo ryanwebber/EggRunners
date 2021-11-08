@@ -449,7 +449,7 @@ MonoBehaviour:
   dynamicBodyForceScale: 90
   playerBodyForceScale: 20
   duration: 0.2
-  extent: {x: 3, y: 0.75, z: 0.25}
+  extent: {x: 1.5, y: 0.75, z: 0.25}
   layerMask:
     serializedVersion: 2
     m_Bits: 65
