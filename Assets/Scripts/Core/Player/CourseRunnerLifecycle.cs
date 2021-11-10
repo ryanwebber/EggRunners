@@ -10,6 +10,9 @@ public class CourseRunnerLifecycle : MonoBehaviour
     private LayerMask physicsBoundsLayer;
 
     [SerializeField]
+    private bool usesPhysicsBounds = false;
+
+    [SerializeField]
     private float minimimHeightBeforeElimination;
 
     [SerializeField]
@@ -74,7 +77,7 @@ public class CourseRunnerLifecycle : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (((1 << other.gameObject.layer) & physicsBoundsLayer.value) != 0 && !wasEliminated)
+        if (((1 << other.gameObject.layer) & physicsBoundsLayer.value) != 0 && !wasEliminated && usesPhysicsBounds)
         {
             Debug.Log("Player has left main physics boundary. Will Eliminate...", this);
 
