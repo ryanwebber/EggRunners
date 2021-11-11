@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(LineRenderer))]
 public class RunnerRayRenderer : MonoBehaviour
@@ -15,6 +16,9 @@ public class RunnerRayRenderer : MonoBehaviour
 
     [SerializeField]
     private float maxRayLength = 1000f;
+
+    [SerializeField]
+    private DecalProjector decalProjector;
 
     private LineRenderer rayRenderer;
 
@@ -39,10 +43,27 @@ public class RunnerRayRenderer : MonoBehaviour
         var eventualHitPoint = ray.origin + ray.direction * maxRayLength;
         var collision = Physics.Raycast(ray, out var hit, maxRayLength, rayLayermask, QueryTriggerInteraction.Ignore);
         if (collision)
+        {
             eventualHitPoint = hit.point;
+
+            if (!decalProjector.enabled)
+                decalProjector.enabled = true;
+
+            UpdateDecal(hit.point + hit.normal * 0.001f, hit.normal);
+        }
+        else
+        {
+            decalProjector.enabled = false;
+        }
 
         rayRenderer.SetPosition(0, transform.InverseTransformPoint(ray.origin) + direction * drawOffset);
         rayRenderer.SetPosition(1, transform.InverseTransformPoint(eventualHitPoint) - direction * drawOffset);
+    }
+
+    private void UpdateDecal(Vector3 position, Vector3 surfaceNormal)
+    {
+        decalProjector.transform.position = position;
+        decalProjector.transform.forward = -surfaceNormal;
     }
 
     private void OnDrawGizmos()
