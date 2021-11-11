@@ -165,7 +165,7 @@ MonoBehaviour:
   gravity: 60
   gravityFallMultiplier: 1.5
   slideGravity: 24
-  slopeLimit: 60
+  slopeLimit: 45
   useLocalMomentum: 0
   impulseLayerMask:
     serializedVersion: 2
