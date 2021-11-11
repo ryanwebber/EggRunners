@@ -72,6 +72,9 @@ public class PlayerService : MonoBehaviour
 
         Vector3 cumulativeOffset = Vector3.zero;
 
+        float averageHeight = 0f;
+        int averageHeightCount = 0;
+
         foreach (var runner in runners)
         {
             var instance = runner.instance;
@@ -81,6 +84,9 @@ public class PlayerService : MonoBehaviour
             {
                 progressTracker.RecordProgress(instance.Center);
                 cumulativeOffset += instance.Center - progressTracker.transform.position;
+
+                averageHeight += instance.Center.y;
+                averageHeightCount++;
             }
 
             if (finishZone.FinishBounds.Contains(instance.Center) && runners[playerIndex].IsRunning)
@@ -111,6 +117,14 @@ public class PlayerService : MonoBehaviour
 
         // Final horizontal shift        
         averagePlayerPosition.localPosition = new Vector3(yScalar * maxXOffset * Mathf.Sign(cumulativeOffset.x), 0, 0);
+
+        // Update average position height
+        if (averageHeightCount > 0)
+        {
+            var averagePosition = averagePlayerPosition.position;
+            averagePosition.y = averageHeight / averageHeightCount;
+            averagePlayerPosition.position = averagePosition;
+        }
     }
 
     private void ResetRunner(CourseRunner runner)

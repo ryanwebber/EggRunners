@@ -16,19 +16,32 @@ public class CourseChunk : MonoBehaviour
     private int unitLength = 8;
     public int Length => unitLength * Globals.ChunkScale.z;
 
+    [SerializeField]
+    private int endHeight = 0;
+    public int EndHeight => endHeight * Globals.ChunkScale.y;
+
     public Bounds Bounds
     {
         get
         {
-            var size = new Vector3(Width, Globals.ChunkScale.y, Length);
-            return new Bounds(transform.position, size);
+            var size = new Vector3(Width, EndHeight, Length);
+            return new Bounds(transform.position + Vector3.up * (EndHeight / 2f), size);
         }
     }
 
     private void OnDrawGizmos()
     {
         var bounds = this.Bounds;
+
+        var leftStart = new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
+        var leftEnd = new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
+        var rightStart = new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
+        var rightEnd = new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
+
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(bounds.center, bounds.size);
+        Gizmos.DrawLine(leftStart, leftEnd);
+        Gizmos.DrawLine(rightStart, rightEnd);
+        Gizmos.DrawLine(leftStart, rightStart);
+        Gizmos.DrawLine(leftEnd, rightEnd);
     }
 }

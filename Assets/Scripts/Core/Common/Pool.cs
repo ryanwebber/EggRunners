@@ -64,6 +64,7 @@ public class Pool : MonoBehaviour
 
         EnsureAtLeast(1);
         var instance = pool.Pop();
+        instance.AssignedPool = this;
         return instance.GetComponent<T>();
     }
 

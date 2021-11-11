@@ -702,7 +702,7 @@ public class CMFMovementController : Controller
 	{
 		if (Time.fixedDeltaTime > 0f && ((1 << collision.collider.gameObject.layer) & impulseLayerMask) != 0)
 		{
-			float bounce = collision.collider.material == null ? 0.5f : collision.collider.material.bounciness;
+			float bounce = 1f;
 			float scale = baseImpulseScale * bounce;
 
 			// Sometimes impulse is in the wrong direction because the player hits the object. The normal

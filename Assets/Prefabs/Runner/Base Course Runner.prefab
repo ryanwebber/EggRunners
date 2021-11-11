@@ -170,7 +170,7 @@ MonoBehaviour:
   impulseLayerMask:
     serializedVersion: 2
     m_Bits: 256
-  baseImpulseScale: 1.5
+  baseImpulseScale: 2
   momentum: {x: 0, y: 0, z: 0}
   savedVelocity: {x: 0, y: 0, z: 0}
   savedMovementVelocity: {x: 0, y: 0, z: 0}
