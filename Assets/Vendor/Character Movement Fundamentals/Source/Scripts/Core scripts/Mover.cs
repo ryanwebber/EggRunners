@@ -399,5 +399,14 @@ namespace CMF
 		}
 
 		public Collider GetBodyCollider() => col;
+
+		/// <summary>
+        ///  Add position displacement without affecting velocity
+        /// </summary>
+        /// <param name="displacement"></param>
+		public void AddDisplacement(Vector3 displacement)
+		{
+			rig.MovePosition(rig.position + displacement);
+		}
 	}
 }

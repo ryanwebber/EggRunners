@@ -85,8 +85,6 @@ public class ShredderComponent : MonoBehaviour
                 Random.Range(spawnBounds.min.y, spawnBounds.max.y),
                 Random.Range(spawnBounds.min.z, spawnBounds.max.z));
 
-            Debug.Log($"Spawning cannonball at {instance.transform.position}", instance);
-
             if (instance.TryGetComponent<Rigidbody>(out var rigidbody))
             {
                 rigidbody.angularVelocity = Vector3.zero;

@@ -140,6 +140,7 @@ public class CMFMovementController : Controller
 	}
 
 	ControllerState currentControllerState = ControllerState.Falling;
+	GroundContact currentContact = null;
 
 	//Get references to all necessary components;
 	void Awake()
@@ -167,7 +168,26 @@ public class CMFMovementController : Controller
 
 	void FixedUpdate()
 	{
+		// If the user is on a moving surface, update their position
+		if (currentContact != null)
+			mover.AddDisplacement(currentContact.Displacement);
+
 		ControllerUpdate();
+
+		// Check if we're newly grounded to a moving platform, or newly un-grounded
+		if (!IsGrounded() && currentContact != null)
+        {
+			// Detatch from the ground contact
+			currentContact.Detach();
+			currentContact = null;
+        }
+		else if (IsGrounded() && currentContact == null)
+        {
+			if (mover.GetGroundCollider().TryGetComponent<GroundTaxi>(out var taxi))
+            {
+				currentContact = taxi.CreateContact(mover.GetGroundPoint(), gameObject);
+            }
+        }
 	}
 
 	//Update controller;
