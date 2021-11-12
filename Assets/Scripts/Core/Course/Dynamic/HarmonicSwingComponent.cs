@@ -21,30 +21,22 @@ public class HarmonicSwingComponent : MonoBehaviour
     [SerializeField]
     private DynamicCourseComponent dynamicController;
 
-    private bool isRotating = false;
     private float rotationStartTime = 0f;
 
     private void Awake()
     {
+        rotationStartTime = Time.fixedTime;
         SetAngularDisplacement(initialRotationDisplacement);
-        dynamicController.OnDynamicComponentStart += () =>
-        {
-            isRotating = true;
-            rotationStartTime = Time.fixedTime;
-        };
 
         dynamicController.OnDynamicComponentReset += () =>
         {
-            isRotating = false;
+            rotationStartTime = Time.fixedTime;
             SetAngularDisplacement(initialRotationDisplacement);
         };
     }
 
     private void FixedUpdate()
     {
-        if (!isRotating)
-            return;
-
         SetAngularDisplacement(HarmonicUtils.GetRotation(Time.fixedTime - rotationStartTime, armLength, gravitationalForce, initialRotationDisplacement));
     }
 
