@@ -33,10 +33,10 @@ public class CourseChunk : MonoBehaviour
     {
         var bounds = this.Bounds;
 
-        var leftStart = new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
-        var leftEnd = new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
-        var rightStart = new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
-        var rightEnd = new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
+        var leftStart = transform.position + new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
+        var leftEnd = transform.position + new Vector3(-bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
+        var rightStart = transform.position + new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y, -bounds.extents.z);
+        var rightEnd = transform.position + new Vector3(bounds.extents.x, 0.5f * Globals.ChunkScale.y + bounds.extents.y * 2f, bounds.extents.z);
 
         Gizmos.color = Color.red;
         Gizmos.DrawLine(leftStart, leftEnd);

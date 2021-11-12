@@ -61,4 +61,41 @@ public class ChunkService : MonoBehaviour
 
         builder.LayoutCourse(chunks);
     }
+
+    public Vector3 GetPositionAlongCourseDolly(float zOffset)
+    {
+        if (chunks.Count == 0)
+            return new Vector3(0f, 0f, zOffset);
+
+        float yCurrent = chunks[0].Bounds.center.y;
+        float zCurrent = chunks[0].Bounds.min.z;
+
+        CourseChunk currentChunk = null;
+        for (int i = 0; i < chunks.Count; i++)
+        {
+            if (chunks[i].Bounds.min.z <= zOffset && chunks[i].Bounds.max.z > zOffset)
+            {
+                currentChunk = chunks[i];
+                break;
+            }
+
+            Debug.DrawLine(
+                new Vector3(0f, yCurrent, zCurrent),
+                new Vector3(0f, yCurrent + chunks[i].EndHeight, zCurrent + chunks[i].Length),
+                Color.red);
+
+            yCurrent += chunks[i].EndHeight;
+            zCurrent += chunks[i].Length;
+        }
+
+        if (currentChunk == null)
+            currentChunk = chunks[chunks.Count - 1];
+
+        if (currentChunk.Length == 0)
+            return new Vector3(0f, yCurrent, zOffset);
+
+        float pctChunkComplete = (zOffset - zCurrent) / currentChunk.Length;
+        float yLerped = Mathf.Lerp(yCurrent, yCurrent + currentChunk.EndHeight, pctChunkComplete);
+        return new Vector3(0f, yLerped, zOffset);
+    }
 }

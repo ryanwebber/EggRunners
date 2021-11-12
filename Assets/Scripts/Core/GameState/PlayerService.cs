@@ -37,10 +37,13 @@ public class PlayerService : MonoBehaviour
     private float runStartTime = 0f;
     private RunnerState[] runners;
     private CourseRoster roster;
+    private ChunkService chunkService;
 
     private void Awake()
     {
         gameState.OnRegisterServices += () => gameState.Services.RegisterService(this);
+        gameState.OnInitializeServices += () => chunkService = gameState.Services.GetService<ChunkService>();
+
         gameState.Events.OnCountDownEnd += () =>
         {
             runStartTime = Time.time;
@@ -72,9 +75,6 @@ public class PlayerService : MonoBehaviour
 
         Vector3 cumulativeOffset = Vector3.zero;
 
-        float averageHeight = 0f;
-        int averageHeightCount = 0;
-
         foreach (var runner in runners)
         {
             var instance = runner.instance;
@@ -84,9 +84,6 @@ public class PlayerService : MonoBehaviour
             {
                 progressTracker.RecordProgress(instance.Center);
                 cumulativeOffset += instance.Center - progressTracker.transform.position;
-
-                averageHeight += instance.Center.y;
-                averageHeightCount++;
             }
 
             if (finishZone.FinishBounds.Contains(instance.Center) && runners[playerIndex].IsRunning)
@@ -111,20 +108,19 @@ public class PlayerService : MonoBehaviour
         // Elasticity of camera movement
         float dampeningFactor = 0.05f;
 
-        // x:0 => y:0
-        // x:inf => y:1
-        float yScalar = 1 - 1 / (1 + dampeningFactor * Mathf.Abs(cumulativeOffset.x));
+        // x:0 => _x:0
+        // x:inf => _x:1
+        float horizontalScalar = 1 - 1 / (1 + dampeningFactor * Mathf.Abs(cumulativeOffset.x));
 
         // Final horizontal shift        
-        averagePlayerPosition.localPosition = new Vector3(yScalar * maxXOffset * Mathf.Sign(cumulativeOffset.x), 0, 0);
+        averagePlayerPosition.localPosition = new Vector3(horizontalScalar * maxXOffset * Mathf.Sign(cumulativeOffset.x), 0, 0);
 
-        // Update average position height
-        if (averageHeightCount > 0)
-        {
-            var averagePosition = averagePlayerPosition.position;
-            averagePosition.y = averageHeight / averageHeightCount;
-            averagePlayerPosition.position = averagePosition;
-        }
+        // Figure out the target camera Y position
+        Vector3 worldPosition = chunkService.GetPositionAlongCourseDolly(progressTracker.Distance);
+        worldPosition.x = averagePlayerPosition.position.x;
+        worldPosition.z = averagePlayerPosition.position.z;
+
+        averagePlayerPosition.position = worldPosition;
     }
 
     private void ResetRunner(CourseRunner runner)

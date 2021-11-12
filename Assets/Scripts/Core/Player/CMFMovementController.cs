@@ -174,19 +174,28 @@ public class CMFMovementController : Controller
 
 		ControllerUpdate();
 
-		// Check if we're newly grounded to a moving platform, or newly un-grounded
-		if (!IsGrounded() && currentContact != null)
-        {
-			// Detatch from the ground contact
-			currentContact.Detach();
+		// Disconnect if we're attached to a new ground collider
+		if ((IsGrounded() && currentContact != null && currentContact.GroundCollider != mover.GetGroundCollider()) || !IsGrounded())
+		{
+			// Detach from a contact if we're on one
+			currentContact?.Detach();
 			currentContact = null;
-        }
-		else if (IsGrounded() && currentContact == null)
-        {
+		}
+
+		// Check if we're newly grounded to a moving platform
+		if (IsGrounded() && currentContact == null)
+		{
+			// Newly attached to the ground contact
 			if (mover.GetGroundCollider().TryGetComponent<GroundTaxi>(out var taxi))
-            {
+			{
+				Debug.Log("Newly attached to ground taxi...", this);
 				currentContact = taxi.CreateContact(mover.GetGroundPoint(), gameObject);
-            }
+			}
+		}
+		else if (IsGrounded() && currentContact != null)
+        {
+			// We are still attached to the same taxi. Update our ground point on it
+			currentContact.transform.position = mover.GetGroundPoint();
         }
 	}
 
